@@ -1,0 +1,218 @@
+\chapter{SISTEMA DE ARMAZENAMENTO DE SENHAS}
+\label{sistema}
+
+Para o desenvolvimento do sistema de gerenciamento de senhas seguro foram estudados diferentes algoritmos de reconhecimento de características biométricas, analisando suas vantagens na aplicação do reconhecimento de faces e voz. Com este conhecimento foi avaliado quais destas técnicas apresentam melhores resultados, em relação a eficiência e taxa de reconhecimento. Também foram estudados diferentes algoritmos de criptografia para o armazenamento das senhas de forma segura no sistema. As principais etapas do funcionamento do sistema são apresentadas na Figura \ref{fig:visao-geral}.
+
+\begin{figure}[H]
+  \centering
+  \caption{Visão geral do sistema de gerenciamento de senhas.}
+  \includegraphics[width=\textwidth]{Imagem.png}
+  \fonte{(AUTORES, 2017)}
+  \label{fig:visao-geral}
+\end{figure}
+
+
+O sistema será dividido em dois módulos, um responsável pela autenticação biométrica, e o outro responsável pela criptografia das senhas. O módulo de autenticação biométrica deverá ser capaz de realizar os processos de cadastro, calibragem, e autenticação de usuários, e para isto ele fará o uso das técnicas de reconhecimento biométrico. O módulo de criptografia de senhas tem como objetivo principal adicionar uma camada extra de segurança sobre o uso de biometria, para que mesmo que os dados sejam obtidos sem a autenticação do usuário, eles não sejam facilmente decifrados. Este módulo deverá ser capaz de fazer a criptografia dos dados, e também a transformação da senha cifrada em texto claro para o usuário autenticado visualiza-la. Quando o usuário estiver autenticado o sistema irá abrir uma sessão onde estarão disponíveis todas informações do usuário, incluindo a chave de criptografia.
+
+O fluxo principal do sistema acontece de forma simples, primeiro serão coletadas as leituras das características biométricas do usuário através do uso de câmera e microfone. Uma delas será a imagem da face, e a outra uma gravação da voz do usuário. O processo de coleta de ambas biometrias ocorre de forma simultânea, onde o usuário irá segurar o seu dispositivo móvel apontando para seu rosto, enquanto lhe for solicitado que faça a leitura de uma frase definida no sistema em voz alta. Estas informações serão processadas através do uso de algoritmos de pré-processamento, reconhecimento e classificação, onde a combinação dos resultados irá definir se a autenticação é válida ou não. Sendo autenticado, o usuário irá ter acesso ao sistema que permitirá realizar a leitura, cadastro e alteração de informações de \textit{login} como usuário e/ou e-mail, descrição (nome ou URL do serviço), e senha.
+
+O sistema também contará com funções para gerar senhas automaticamente, baseando-se em boas práticas de segurança, escolha entre algoritmos de criptografia e definição da chave de cifragem. A aplicação desenvolvida será para a plataforma \textit{Android}, e os dados serão armazenados em um banco de dados.
+
+\section{Características Biométricas Escolhidas}
+Baseado na análise dos trabalhos relacionados estudados no Capítulo 3, foram definidas duas características biométricas a serem utilizadas no processo de autenticação: faces e voz. Estas biometrias foram escolhidas pois podem ser obtidas pela grande maioria dos \textit{smartphones} no mercado, através de câmeras e microfones convencionais. As biometrias escolhidas para o desenvolvimento do sistema estão entre as mais populares em sistemas de autenticação, e possuem uma grande variedade de pesquisas e trabalhos científicos onde são utilizadas técnicas e algoritmos eficientes que sejam capazes de realizar o seu reconhecimento.
+
+Em seu trabalho \cite{gofman:2016}, demonstrou que é possível aumentar a segurança na autenticação biométrica através da combinação dos resultados sobre o processamento de duas ou mais características. Este processo pode ser feito de várias maneiras, e uma delas é a avaliação da qualidade de ambas amostras biométricas, e posteriormente a combinação dos resultados das técnicas de reconhecimento proporcionalmente à qualidade de cada amostra.
+
+
+
+\section{Técnicas de Reconhecimento}
+Para o reconhecimento facial foi escolhida a técnica de \textit{FisherFaces}, pois analisando os trabalhos relacionados ela demonstrou as melhores taxas de reconhecimento, que chegam a aproximadamente 95\%, como é possível ver na Figura \ref{fig:reconhecimento-facial} citada no Capítulo 2. E esta técnica é implementada pelo \textit{OpenCV} \cite{opencv}, uma das tecnologias que foi estudada e será utilizada para o desenvolvimento do sistema. 
+
+No processo de reconhecimento de voz será utilizada a técnica de \textit{Mel Frequency Cepstral Coefficients} (MFCC) para realizar a extração de características da amostra de áudio que corresponde a voz humana, e a técnica de \textit{k-Nearest Neighbors} (k-NN) para o reconhecimento da MFCC baseado nas amostras fornecidas pelo usuário na etapa de cadastro no sistema. Estes métodos foram escolhidos pois apresentam bons resultados, com taxas de reconhecimento de 84,85\% e chegando a 96,97\% utilizando algumas melhorias como \cite{ranny:2016} demonstra em seu trabalho. Esta técnica não exige muito poder de processamento, o que é um fator importante quando se trata de aplicações para dispositivos móveis \cite{Agholor:2016}.
+
+
+
+\section{Modelagem do Sistema}
+Esta seção apresenta a modelagem do sistema de gerenciamento de senhas proposto neste trabalho.
+
+\subsection{Arquitetura}
+O sistema proposto será um aplicativo para dispositivos móveis especificamente para a plataforma Android. Será desenvolvido com a linguagem Java, em conjunto com bibliotecas para auxílio no processamento e reconhecimento de biometrias, como \textit{OpenCV}. Optou-se pela linguagem de programação Java por ser a linguagem oficial para desenvolvimento de aplicativos para a plataforma Android, e ser uma das linguagens suportadas pelo \textit{OpenCV}. 
+
+O \textit{hardware} utilizado para o desenvolvimento será um computador pessoal com a IDE (Ambiente de desenvolvimento integrado) Android Studio e JDK (\textit{Java Development Kit}) instalados. Também será utilizado um \textit{smartphone} para realizar testes e simulações do aplicativo durante o desenvolvimento. O sistema será construído visando a modularidade, para que seja facilmente integrado novos algoritmos de criptografia e novas biometrias na autenticação, além de outras funcionalidades adicionais que podem ser propostos em trabalhos futuros.
+
+
+
+
+\subsection{Funcionalidades do Sistema}
+O sistema visa realizar o armazenamento das senhas de forma segura e conveniente para os usuários, e contará com as seguintes funcionalidades:
+\begin{itemize}
+\item Armazenamento de senhas e informações adicionais criptografadas.
+\item Autenticação biométrica através do reconhecimento facial e de voz.
+\end{itemize}
+
+
+
+\subsection{Requisitos Funcionais}
+A Tabela \ref{requisitos-funcionais} representa a lista dos requisitos funcionais do projeto. Estes representam as funções que o sistema deve ser capaz de realizar em termos de tarefas e serviços.
+
+\begin{table}[H]
+\centering
+\caption{Requisitos Funcionais}
+\label{requisitos-funcionais}
+\begin{tabular}{|p{1cm}|p{14cm}|}
+\hline
+1.1 & O sistema deve permitir a inclusão, alteração, visualização e remoção de senhas.         \\ \hline
+1.2 & O sistema deve permitir adicionar informações adicionais para cada senha cadastrada.     \\ \hline
+1.3 & O sistema não deve limitar a quantidade de senhas cadastradas.                           \\ \hline
+1.4 & O sistema deve realizar o cadastro biométrico diretamente no dispositivo em seu primeiro uso.\\ \hline
+1.5 & O sistema deve possibilitar a escolha da chave utilizada na criptografia.                \\ \hline
+1.6 & O sistema deve possuir uma forma alternativa à autenticação biométrica.                  \\ \hline
+1.7 & O sistema deve possibilitar a autenticação biométrica através de faces e voz.            \\ \hline
+1.8 & O sistema deve possibilitar a autenticação por meio da senha mestre.                     \\ \hline
+1.9 & O sistema deve ser disponível em dispositivos móveis Android.                            \\ \hline
+1.10 & O sistema deve bloquear o usuário por 30 segundos após 3 tentativas de autenticação sem sucesso.\\ \hline
+\end{tabular}
+\end{table}
+
+
+
+\subsection{Requisitos Não-funcionais}
+A Tabela \ref{requisitos-nao-funcionais} representa a lista dos requisitos não funcionais do projeto. Estes representam os requisitos relacionados aos termos de desempenho, usabilidade, confiabilidade e segurança.
+
+\begin{table}[H]
+\centering
+\caption{Requisitos Não-funcionais}
+\label{requisitos-nao-funcionais}
+\begin{tabular}{|p{1cm}|p{14cm}|}
+\hline
+1.1 & O sistema deve permitir visualização de senhas somente com a autenticação do usuário.          \\ \hline
+1.2 & O sistema deve armazenar as senhas de forma segura utilizando criptografia.                    \\ \hline
+1.3 & O sistema deve realizar a autenticação biométrica de forma rápida.                             \\ \hline
+1.4 & O reconhecimento facial deve ser capaz de reconhecer faces em ambientes com pouca luminosidade.\\ \hline
+1.5 & O reconhecimento de voz deve ser capaz de reconhecer a voz independente do texto.              \\ \hline
+1.6 & O sistema deve ser desenvolvido para a plataforma Android.                                     \\ \hline
+1.7 & O sistema deve estar disponível 24/7.                                                          \\ \hline
+1.8 & Somente o usuário deve ser capaz de acessar seus dados.                                        \\ \hline
+1.9 & O sistema deve encerrar a sessão do usuário automaticamente após 5 minutos de inatividade.     \\ \hline
+\end{tabular}
+\end{table}
+
+
+
+\subsection{Diagrama de classes}
+A Figura \ref{fig:diagrama-de-classes} representa o diagrama de classes definido para representar a estrutura e relação das classes que irão servir de modelo para os objetos no sistema. O diagrama contém 6 classes, que são: Usuario, Senha, Arquivo, Sessao, Criptografia e ReconhecimentoBiometrico. A classe Usuario é a classe principal, ela representa as informações relevantes ao usuário do sistema, que são: nome do usuário, senha mestre, e-mail, chave utilizada na criptografia, e outras informações relevantes ao processo de autenticação biométrica. A classe Arquivo representa os arquivos que serão obtidos através das leituras biométricas como imagens da face do usuário, e gravações de voz. Cada usuário terá um conjunto de arquivos que serão coletados durante seu primeiro contato com a aplicação. Estes arquivos passarão pelo processo de pré-processamento antes de serem armazenados e utilizados para treinamento dos algoritmos de reconhecimento.
+
+Já a classe Senha é o modelo da principal funcionalidade do sistema, que é o armazenamento de senhas. cada usuário irá poder ter uma quantidade ilimitada de senhas cadastradas (dependendo do espaço de armazenamento disponível no dispositivo), e senhas criptografadas com a chave definida pelo usuário antes de serem armazenadas. Para cada senha cadastrada pode se ter também informações adicionais como a URL e descrição do serviço.
+
+As três classes: Sessao, Criptografia e ReconhecimentoBiometrico, são classes responsáveis pelos processos do sistema. A Sessão é responsável por controlar o acesso e navegação no sistema, e ela possui as informações do usuário autenticado, como usuário, senha, chave criptografada da sessão e o horário que a sessão foi criada. A classe Criptografia tem duas funções que são a cifragem e decifragem das senhas utilizando a chave definida pelo usuário.
+A classe ReconhecimentoBiometrico é responsável por aplicar as técnicas de reconhecimento estudadas, e ela faz o processamento das biometrias tanto no cadastro de um novo usuário quanto na autenticação de um usuário existente. E também faz a calibragem do reconhecimento biométrico.
+
+\begin{figure}[H]
+  \centering
+  \caption{Diagrama de Classes.}
+  \includegraphics[width=\textwidth]{images/diagrama-de-classes.png}
+  \fonte{(AUTORES, 2017)}
+  \label{fig:diagrama-de-classes}
+\end{figure}
+
+
+
+
+\subsection{Diagrama ER}
+
+A Figura \ref{fig:diagrama-er} representa a modelagem do banco de dados onde serão persistidos os dados do sistema. O modelo é composto por 5 tabelas principais que são: Usuario, Senha, Biometria, Audio, Imagem. A tabela Usuario mantém o registro dos usuários do sistema, e contém as informações fornecidas no cadastro da conta, ela possui dois relacionamentos com as tabelas Biometria e Senha. A tabela Biometria representa as leituras biometrias coletadas no processo de cadastro, em forma de imagens e gravação de áudio. Estes arquivos são armazenados no dispositivo e seu caminho é salvo no banco de dados referenciando nas tabelas Imagem e Audio de acordo. Na tabela Senha são armazenadas as senhas criptografadas juntamente com informações adicionais do serviço, esta tabela faz parte da principal funcionalidade do sistema que é o armazenamento seguro de senhas. Para cada usuário cadastrado no sistema poderão existir \textit{N} senhas e \textit{N} biometrias. E para cada biometria poderão existir \textit{N} arquivos de áudio e \textit{N} arquivos de imagem.
+\begin{figure}[H]
+  \centering
+  \caption{Diagrama ER.}
+  \includegraphics[width=\textwidth]{images/diagrama-er.png}
+  \fonte{(AUTORES, 2017)}
+  \label{fig:diagrama-er}
+\end{figure}
+
+
+
+\subsection{Casos de Uso}
+Como pode ser visto na Figura \ref{fig:casos-de-uso}, a modelagem do sistema foi dividida em um conjunto de casos de uso fundamentais para os processos. O único ator envolvido é o próprio usuário, que irá interagir com cada caso de uso, desde operações básicas sobre as senhas, até o cadastro e autenticação biométrica.
+
+\begin{figure}[H]
+  \centering
+  \caption{Diagrama de Casos de Uso.}
+  \includegraphics[width=\textwidth]{casos-de-uso.png}
+  \fonte{(AUTORES, 2017)}
+  \label{fig:casos-de-uso}
+\end{figure}
+
+
+
+\subsubsection{Cadastro Biométrico}
+Este caso de uso faz parte do processo principal do sistema, que é a autenticação biométrica. Ele representa o primeiro contado do usuário com a aplicação, onde serão coletadas as leituras biométricas da face e voz do usuário, estas leituras sendo na forma de imagens e gravação de áudio. As imagens coletadas passam por um processo de normalização, onde são aplicados filtros e redimensionamento, antes de serem armazenadas no dispositivo e referenciadas no banco de dados.
+Para se cadastrar no sistema, na primeira etapa o usuário deverá escolher um nome de usuário e uma senha mestre. Esta senha deverá conter no mínimo 10 caracteres, e pelo menos de três diferentes tipos entre: letras minúsculas, letras maiúsculas, dígitos, caracteres especiais. Na etapa seguinte, o usuário deverá informar uma chave que será usada para criptografia das senhas. Esta chave poderá ser gerada automaticamente pelo sistema, e deve ter entre 30 e 60 caracteres. A chave deve ser longa para que seja difícil de ser adivinhada, e possa ser utilizada em diferentes algoritmos de criptografia. E por fim o aplicativo irá solicitar que o usuário segure o dispositivo com a câmera apontada para sua face para que sejam capturadas imagens, enquanto ele faz a leitura em voz alta de uma frase definida pelo sistema para que se obtenha uma breve gravação da sua voz. Então o sistema de reconhecimento será calibrado automaticamente para reconhecer o usuário baseado em suas características biométricas fornecidas durante o cadastro biométrico. O diagrama de sequência deste caso de uso pode ser visualizado na Figura \ref{fig:cadastro-biometrico}.
+
+\begin{figure}[H]
+  \centering
+  \caption{Diagrama de Sequência - Cadastro Biométrico.}
+  \includegraphics[width=\textwidth]{cadastro-biometrico.png}
+  \fonte{(AUTORES, 2017)}
+  \label{fig:cadastro-biometrico}
+\end{figure}
+
+
+\subsubsection{Autenticação biométrica}
+A autenticação biométrica é o principal processo do sistema, e estará disponível somente após a conclusão do cadastro biométrico com sucesso. Este processo acontecerá de forma similar ao cadastro biométrico, onde o usuário será solicitado que segure o dispositivo com a câmera apontada para sua face, enquanto faz a leitura de uma frase definida pelo sistema. Este processo deverá acontecer de forma rápida, e com precisão no reconhecimento. O sistema irá realizar o reconhecimento das duas biometrias do usuário, fazer a combinação dos resultados obtidos, e por fim decidir se a autenticação é válida. Em caso positivo, o usuário terá acesso à todas as senhas e informações cadastradas no sistema pelo seu usuário. Caso não seja válido, o usuário poderá tentar o processo novamente.
+
+Durante a autenticação biométrica o reconhecimento facial deve ser possível mesmo em ambientes com pouca luminosidade, e ser independente das expressões faciais. E o reconhecimento da voz deve ser independente do texto, e ser tolerante a ruídos do ambiente. O diagrama de sequência deste caso de uso pode ser visualizado na Figura \ref{fig:autenticacao-biometrica}.
+
+\begin{figure}[H]
+  \centering
+  \caption{Diagrama de Sequência - Autenticação Biométrica.}
+  \includegraphics[width=\textwidth]{autenticacao-biometrica.png}
+  \fonte{(AUTORES, 2017)}
+  \label{fig:autenticacao-biometrica}
+\end{figure}
+
+
+\subsubsection{Cadastrar Senha}
+O cadastro de senha é uma das operações básicas sobre a principal funcionalidade do sistema de gerenciamento de senha. Este processo faz a persistência de uma nova senha junto com suas informações adicionais no dispositivo. Para cadastrar uma nova senha o usuário deve estar autenticado no sistema. E para que as senhas sejam salvas de forma segura, elas são criptografadas antes de serem salvas. A chave utilizada na criptografia é a mesma definida pelo usuário na criação de sua conta. O diagrama de sequências deste caso de uso pode ser visualizado na Figura \ref{fig:cadastrar-senha}.
+
+\begin{figure}[H]
+  \centering
+  \caption{Diagrama de Sequência - Cadastrar Senha.}
+  \includegraphics[width=\textwidth]{cadastrar-senha.png}
+  \fonte{(AUTORES, 2017)}
+  \label{fig:cadastrar-senha}
+\end{figure}
+
+
+
+\subsubsection{Visualizar Senha}
+A visualização das senhas é outra operação básica sobre o gerenciamento de senhas, e o usuário deverá estar autenticado no sistema para poder fazer a recuperação da senha criptografada e visualizá-la em texto claro. Para isto basta o usuário selecionar uma senha que deseja visualizar da lista de senhas cadastradas, esta lista irá mostrar o campo de descrição informado no cadastro da senha. O diagrama de sequência deste caso de uso pode ser visualizado na Figura \ref{fig:visualizar-senha}. A senha que for selecionada para visualização será então encaminhada para ser descriptografada, para isto é utilizado a chave cadastrada na conta do usuário que estará disponível na sessão. Esta chave funciona em conjunto com um algoritmo de criptografia simétrico, onde a mesma é utilizada para criptografia e também para o processo inverso.
+
+\begin{figure}[H]
+  \centering
+  \caption{Diagrama de Sequência - Visualizar Senha.}
+  \includegraphics[width=\textwidth]{visualizar-senha.png}
+  \fonte{(AUTORES, 2017)}
+  \label{fig:visualizar-senha}
+\end{figure}
+
+
+\subsubsection{Editar e Excluir Senha}
+A edição das senhas é uma combinação dos processos de visualizar e cadastrar senhas, vistos nas Figuras \ref{fig:visualizar-senha} e \ref{fig:cadastrar-senha} respectivamente. O usuário deverá estar autenticado e estar visualizando uma senha par alterá-la. O usuário poderá alterar todas as informações que foram cadastradas junto com a senha, e caso a senha seja alterada ela passará pelo processo de criptografia antes de ser salva novamente.
+O processo de excluir uma senha também exige que o usuário esteja autenticado e visualizando uma senha, ele é bastante simples, e somente remove a senha armazenada no dispositivo com a confirmação do usuário.
+
+
+
+
+
+\subsection{Diagramas de Atividades}
+
+A Figura \ref{fig:diagrama-de-atividades} representa o diagrama de atividades do sistema. Ele é um gráfico de fluxo que mostra o fluxo de controle de uma atividade para outra, e representa os fluxos conduzidos por processamentos. Nele estão detalhadas as atividades que o usuário pode realizar, e a ordem em que elas ocorrem. O ponto inicial do fluxo é o \textit{login}, onde é realizado o processo de cadastro de um novo usuário e autenticação biométrica para permitir o acesso ou não ao sistema. Em situação de múltiplas tentativas de autenticação sem sucesso, o usuário pode ser bloqueado por um período de tempo. E com o usuário autenticado, é possível utilizar as funcionalidades do sistema de gerenciamento de senhas.
+
+
+\begin{figure}[H]
+  \centering
+  \caption{Diagrama de Atividades.}
+  \includegraphics[width=\textwidth]{images/diagrama-de-atividades.png}
+  \fonte{(AUTORES, 2017)}
+  \label{fig:diagrama-de-atividades}
+\end{figure}

@@ -1,0 +1,134 @@
+\chapter{Resultados}
+\label{resultados}
+
+Este Capítulo contempla os testes que foram aplicados durante o desenvolvimento do sistema de armazenamento de senhas. Foi feito um teste completo das funcionalidades do sistema e dos algoritmos de reconhecimento facial aplicados na biometria, visando os requisitos definidos na modelagem.
+
+
+\section{Procedimentos metodológicos}
+O procedimento de validação do sistema é qualitativo, onde foi feita uma síntese dos resultados obtidos, evidenciando as contribuições, relatando as limitações do estudo, relacionando os fatos verificados com a teoria. Foram feitos testes sobre o processo de autenticação através do uso de biometria e algoritmos de aprendizado de máquina, além de testes com usuários legítimos procurando falhas no processo de autenticação, e também usuários não legítimos tentando burlar a segurança no login, utilizando características biométricas forjadas com imagens impressas ou digitalizadas.
+
+
+\section{Cadastro de usuário e login}
+Primeiramente foi feito o cadastro de um usuário preenchendo os campos no cadastro, observou-se que a senha do usuário deve ser uma senha considerada forte. Esta força aumenta de acordo com o seu tamanho a variedade de tipos de caracteres utilizados. O campo de chave exige que sejam informados 16 caracteres, porém não é considerado a complexidade desta chave. Após criado o novo usuário, foi feito a tentativa de login com o mesmo, que ocorreu normalmente, quando informados o usuário e senha corretos, e o sistema foi redirecionado para a tela principal onde está disponível o cadastro das senhas, como pode ser observado na Figura \ref{fig:senhas}. 
+
+\begin{figure}[H]
+  \centering
+  \caption{Tela principal do sistema de armazenamento de senhas.}
+  \includegraphics[width=\textwidth]{images/login-sucesso.png}
+  \fonte{(AUTORES, 2018)}
+  \label{fig:senhas}
+\end{figure}
+
+Para validar o processo de autenticação também foi feito a tentativa de login utilizando usuário ou senha incorretos, neste caso o sistema não fez a autenticação e retornou uma mensagem informando o erro. Após múltiplas tentativas de login com erro, o sistema retorna uma mensagem informando que o usuário foi bloqueado temporariamente por 5 minutos, como pode ser observado na Figura \ref{fig:usuario-bloqueado}. 
+
+\begin{figure}[H]
+  \centering
+  \caption{Usuário bloqueado temporariamente após tentativas de login sem sucesso.}
+  \includegraphics[width=\textwidth]{images/usuario-bloqueado_censored.png}
+  \fonte{(AUTORES, 2018)}
+  \label{fig:usuario-bloqueado}
+\end{figure}
+
+
+
+\section{Cadastro e armazenamento de senhas}
+Com o usuário autenticado foram feitos inserções de senhas e suas informações adicionais, observou-se que ao criar uma nova senha o sistema oferece a possibilidade da geração automática de uma senha informando o número de caracteres que ela deve conter. As senhas geradas possuem diferentes tipos de caracteres, são complexas e aleatórias, como pode ser observado na Figura \ref{fig:editar-senhas}.
+
+\begin{figure}[H]
+  \centering
+  \caption{Cadastro e geração automática de senhas.}
+  \includegraphics[width=\textwidth]{images/editar-senha.png}
+  \fonte{(AUTORES, 2018)}
+  \label{fig:editar-senhas}
+\end{figure}
+
+Após salvar a senha, as informações são inseridas no banco de dados, podendo ser editadas e excluídas. Para verificar se as senhas foram armazenadas de forma segura foram acessados o banco de dados da aplicação simulando uma possível falha do sistema onde este banco pudesse ser acessado. Como pode ser observado na Figura \ref{fig:senhas-cifradas}, as informações de usuário, senha, URL e descrição estão salvas no banco em forma de texto cifrado, e não podem ser descobertas facilmente sem a utilização do algoritmo para realizar a decifragem juntamente com a chave utilizada para o processo.
+
+
+\begin{figure}[H]
+  \centering
+  \caption{Senhas criptografadas armazenadas no banco de dados.}
+  \includegraphics[width=\textwidth]{images/senha-cifrada.png}
+  \fonte{(AUTORES, 2018)}
+  \label{fig:senhas-cifradas}
+\end{figure}
+
+
+\section{Cadastro e calibragem de biometria}
+Como o sistema dá a possibilidade ao usuário de utilizar a autenticação biométrica por reconhecimento facial, foram feitos testes também desta funcionalidade além dos testes dos algoritmos utilizados já apresentados. Na tela de configuração, foram capturadas imagens da face do usuário autenticado, o sistema exigiu pelo menos 20 imagens para possibilitar o treinamento. Pode perceber-se que o sistema não valida se as imagens realmente são da mesma pessoa, ou contém a face do usuário. Porém para simplicidade dos testes foram utilizadas imagens integras todas contendo a face do usuário, e variações leves de expressões faciais e angulo. A tela de cadastro da biometria que pode ser observada na Figura \ref{fig:cadastro-biometrico} conseguiu capturar até 50 imagens, e as imagens após esse número começam a substituir as primeiras formando um ciclo, e o botão limpar apaga todas as imagens já capturadas. Após a captura das imagens, elas foram submetidas para o treinamento do reconhecimento. Com o treinamento feito o sistema retornou uma mensagem dizendo que a biometria já está cadastrada e o usuário já pode utilizar o reconhecimento facial para login.
+
+\begin{figure}[H]
+  \centering
+  \caption{Tela de cadastro e calibragem de biometria.}
+  \includegraphics[width=\textwidth]{images/configuracao_censored.jpg}
+  \fonte{(AUTORES, 2018)}
+  \label{fig:cadastro-biometrico}
+\end{figure}
+
+
+\section{Autenticação biométrica}
+Para validar a autenticação biométrica foi feito a tentativa de login utilizando as leituras da biometria da face do usuário através de uma imagem. Na tela de login o sistema pede a permissão para utilizar a câmera do dispositivo, e apresenta a visualização prévia da câmera junto com os campos de usuário e senha. Ao tentar logar diretamente com a câmera apontando para a face, o sistema exige que seja informado pelo menos o nome de usuário. Com o usuário preenchido o sistema foi capaz de reconhecer rapidamente e realizar a autenticação no sistema. Então foram feitos testes utilizando um nome de usuário correto, porém com outra pessoa aparecendo na câmera. O sistema não foi capaz de fazer a autenticação e retornou a mensagem de erro respectiva. O login através do reconhecimento facial também apresenta erro quando a face não está claramente aparecendo na imagem, foram testados para exemplo as seguintes formas: face não aparece completamente, ambiente muito escuro, óculos ou objetos sobre a face.
+
+Também foram aplicados os testes de login com usuário não legítimo através de biometrias forjadas, e o sistema demonstrou uma fraqueza, sendo capaz de reconhecer em algumas tentativas o usuário através de imagens impressas, ou digitais em uma tela de \textit{smartphone} ou tablet, como pode ser observado na Figura \ref{fig:biometria-forjada}.
+
+\begin{figure}[H]
+  \centering
+  \caption{Login utilizando biometria na tela de um \textit{smartphone}.}
+  \includegraphics[width=\textwidth]{images/biometria-forjada_censored.png}
+  \fonte{(AUTORES, 2018)}
+  \label{fig:biometria-forjada}
+\end{figure}
+
+
+\section{Reconhecimento facial}
+O algoritmo para reconhecimento facial escolhido para ser utilizado no sistema foi o \textit{Fisherfaces}, ele está disponível na biblioteca \textit{OpenCV} para Python e C++, juntamente com outros algoritmos de reconhecimento facial como \textit{Eigenfaces} e LBPH(\textit{Local Binary Patterns Histograms}). Para medir a capacidade de reconhecimento do algoritmo utilizado no reconhecimento de faces em imagens, foi aplicado a técnica de validação de resultados \textit{K-Fold Cross Validation (KFCV)}.
+Esta técnica consiste em dividir a base em K conjuntos, onde um destes conjuntos é utilizado para testes enquanto os restantes são utilizados para o treinamento do algoritmo. Segundo \cite{kaufmann:2006}, a técnica de validação cruzada utilizando 10 \textit{folds} é recomendado para estimar a acurácia de um classificador, mesmo que os computadores atuais sejam capazes de utilizar mais \textit{folds}.
+
+Os testes do algoritmo foram feitos em Python, onde foram utilizadas as técnicas estudadas junto com o método de validação cruzada. As bases de testes utilizadas foram a \textit{Yale Faces Database} \cite{yale:2001} que é uma base de faces que contém no total 165 imagens em escala de cinza estas imagens são de 15 indivíduos distintos, onde para cada um existem 11 imagens com diferentes expressões faciais, e expostas a diferentes condições de luminosidade, como pode ser observado na figura \ref{fig:yalefaces}.
+
+\begin{figure}[H]
+  \centering
+  \caption{\textit{Yale Faces Database}.}
+  \includegraphics[width=\textwidth]{images/yalefaces.png}
+  \fonte{\cite{yale:2001}}
+  \label{fig:yalefaces}
+\end{figure}
+
+Enquanto a segunda base utilizada foi \textit{ORL Database of Faces} que contém imagens um total de  de 400 imagens em escala de cinza de 40 indivíduos distintos, e para cada um destes existem 10 imagens com diferentes expressões faciais, e expostas a diferentes condições de luminosidade, similares a base de Yale.
+
+O procedimento do teste aplicado foi semelhante para ambas as bases, e ocorreu da seguinte maneira. Foi criado uma pasta contendo todas as imagens de faces, e para cada individuo suas imagens foram agrupadas dentro de outra pasta com seu respectivo código. Então foi aplicado a sequência de testes, que são divididas em 10 etapas. Inicialmente a base é dividida em 10 conjuntos iguais de imagens aleatoriamente, então para cada etapa, 9 dos 10 conjuntos são utilizados para treinamento e o restante para testes, assim até que todos os conjuntos tenham sido utilizados para teste e para treinamento. Os resultados podem ser visualizados na \ref{tab:fisherface}.
+
+\begin{table}[H]
+\centering
+\caption{Resultados testes Fisherfaces.}
+\label{tab:fisherface}
+\begin{tabular}{|l|r|l|}
+\hline
+\textbf{Base}                  & \textbf{Taxa de acertos} & \textbf{Parâmetros} \\ \hline
+\textit{Yale Face Database}    & 96,67\% & \texttt{num\_components=14}  \\ \hline
+\textit{ORL Database of Faces} & 95,75\% & \texttt{num\_components=39}  \\ \hline
+\end{tabular}
+\fonte{(AUTORES, 2018)}
+\end{table}
+
+O algoritmo também pode receber 2 parâmetros opcionais, que são: \textit{num\_components} e \textit{threshold}. Caso estes parâmetros não sejam fornecidos são utilizados os valores padrão predefinidos pela biblioteca. O número de componentes é uma forma de aumentar a quantidade de características que serão extraídas da face, enquanto o \textit{threshhold} é o limite mínimo de confiança que deve ser considerado para uma face ser reconhecida. Estes parâmetros não tiveram muitos efeitos sobre os testes, mas foram utilizados na implementação do sistema de gerenciamento de senhas para melhorar a calibragem do treinamento do algoritmo \textit{Fisherfaces}. O algoritmo \textit{Fisherfaces} demonstra altos índices de reconhecimento até mesmo em imagens com pouca luminosidade o que é uma de suas principais características. E sua performance é constante nas duas bases, o que significa que ele é robusto e capaz de reconhecer faces de forma eficiente.
+
+
+Também foram feitos testes com o algoritmo de reconhecimento facial \textit{Eigenfaces}, que também é implementado pelo \textit{OpenCV}, e ele funciona de maneira muito parecida com o \textit{Fisherfaces}. Para procedimento de testes utilizou-se as mesmas bases, as mesmas etapas de pre-processamento, e a mesma técnica de validação anteriores. Os resultados obtidos podem ser visualizados na tabela \ref{tab:eigenfaces}. Pode perceber que o algoritmo também possui um desempenho excelente, e inclusive é capaz de superar o seu concorrente em uma das bases de teste. Isto ocorre pois a base \textit{ORL Database of Faces}, contém imagens com boas condições de luminosidade, enquanto na \textit{Yale Face Database}, existem variações, e é uma característica do algoritmo possuir um baixo desempenho em situações de pouca luminosidade.
+
+\begin{table}[H]
+\centering
+\caption{Resultados testes Eigenfaces.}
+\label{tab:eigenfaces}
+\begin{tabular}{|l|r|l|}
+\hline
+\textbf{Base}                  & \textbf{Taxa de acertos} & \textbf{Parâmetros} \\ \hline
+\textit{Yale Face Database}    & 83,33\% & \texttt{num\_components=149}  \\ \hline
+\textit{ORL Database of Faces} & 97,50\% & \texttt{num\_components=359}  \\ \hline
+\end{tabular}
+\fonte{(AUTORES, 2018)}
+\end{table}
+
+
+
+Porém para autenticar um usuário no sistema é importante definir um \textit{threshold} mínimo, para evitar que ocorra reconhecimento falsos positivos, onde o sistema considera uma face desconhecida como sendo um usuário cadastrado. Para isto foram feitos testes de reconhecimento para verificar aproximadamente até quanto esse limiar pode ser considerado válido. E através destes testes pode-se perceber que quando a confiança do reconhecimento está muito alta, significa que o algoritmo não foi capaz de identificar com tanta precisão a face e pode ter generalizado uma face desconhecida como sendo a de um usuário do sistema. Para isto foi definido o limite de confiança em aproximadamente 2000, que é o limite mínimo considerado para efetivar a autenticação.

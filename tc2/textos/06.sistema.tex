@@ -1,0 +1,93 @@
+\chapter{Sistema desenvolvido}
+\label{sistema}
+
+Este capítulo contempla o desenvolvimento do sistema de armazenamento de senhas, ele foi desenvolvido seguindo a modelagem especificada no capítulo 5, e cada uma das etapas estão descritas nas seções seguintes.
+
+
+\section{Tecnologias}
+O desenvolvimento do sistema de gerenciamento de senhas foi na linguagem Python, pois ela possui bibliotecas de código livre que implementam diversos algoritmos para processamento de imagens, reconhecimento de características biométricas e criptografia, incluindo os que foram escolhidos para o desenvolvimento deste trabalho. O sistema foi desenvolvido para a plataforma web, pois ela permite que a aplicação seja disponibilizada e utilizada em diversos tipos de dispositivos, como \textit{smartphones}, \textit{notebooks}, e computadores \textit{desktop}. Para utilizar o sistema é preciso ter instalado um navegador \textit{web} que possa acessar as \textit{API's} da câmera e/ou áudio do dispositivo, que é possível na grande maioria dos navegadores atuais. O sistema desenvolvido segue a modelagem apresentada na seção 5.3 e foi dividido em partes duas partes.
+Todas as informações cadastradas no sistema são armazenadas em um banco de dados relacional. Especificamente neste trabalho foram utilizados dois bancos distintos, um para ambientes de teste que é o \textit{SQLite}, e um para ambientes de produção que é o \textit{MySQL}. E todas as informações sensíveis, como senhas e usuários são armazenadas de forma criptografada, onde somente usuários autenticados podem acessá-las em forma de texto.
+
+O \textit{hardware} utilizado para o desenvolvimento foi um computador pessoal com a IDE (Ambiente de desenvolvimento integrado) PyCharm e Python instalados. Também foi utilizado o navegador web \textit{Chrome} para realizar testes e simulações da aplicação durante o desenvolvimento. O sistema foi construído visando a modularidade, para que seja facilmente integrado novos algoritmos de criptografia e novas biometrias na autenticação, além de outras funcionalidades adicionais que podem ser propostas em trabalhos futuros.
+
+
+\section{Autenticação biométrica}
+O sistema de gerenciamento de senhas utiliza técnicas de reconhecimento biométrico para autenticar os usuários, sendo está o reconhecimento de faces. O processo exige uma calibragem em seu primeiro uso, e funcionam comparando leituras biométricas atuais com leituras utilizadas no treinamento do algoritmo. Para o reconhecimento facial foi escolhida a técnica de \textit{FisherFaces}, pois analisando os trabalhos relacionados ela demonstrou as melhores taxas de reconhecimento, que chegam a aproximadamente 95\%, como é possível ver na Figura \ref{fig:reconhecimento-facial} citada no Capítulo 2. E esta técnica é implementada pelo \textit{OpenCV} \cite{opencv}, uma das tecnologias que foi estudada e utilizada para o desenvolvimento do sistema.
+
+A autenticação através do reconhecimento facial é feita utilizando o algoritmo \textit{Fisherfaces} da biblioteca \textit{OpenCV} disponível em Python e C++. A implementação do reconhecimento facial é dividida em duas partes, a coleta de imagens e treinamento do algoritmo, e a autenticação através do reconhecimento da face do usuário com o algoritmo treinado. Para cada etapa são utilizadas técnicas de pré-processamento de imagens para prepara-las para o algoritmo.
+O algoritmo \textit{Fisherfaces} é um algoritmo de aprendizado de máquina bastante complexo, e para que ele seja treinado corretamente é necessário que as imagens passem por várias etapas de pré-processamento. Primeiramente o algoritmo espera que as imagens estejam em escala de cinza, com as mesmas dimensões, e que sejam da face enquadrada da pessoa. 
+
+Para obter estes requisitos, foram utilizados classificadores \textit{Haar feature-based cascade} proposto por Paul Viola and Michael Jones \cite{violajones:2001}. Eles são implementados pelo \textit{openCV} e foram utilizados dois classificadores pré treinados no processo, um para faces e outro para olhos. É possível ver a aplicação destes classificadores na detecção de faces e olhos na Figura \ref{fig:haarcascade-opencv}.
+
+\begin{figure}[H]
+  \centering
+  \caption{Haar feature-based cascade.}
+  \includegraphics[width=100mm]{images/haarcascade-opencv.png}
+  \fonte{\cite{opencv}}
+  \label{fig:haarcascade-opencv}
+\end{figure}
+
+O sistema conta com uma seção de configuração onde o usuário pode capturar entre 20 e 50 fotos contendo sua face, que são enviadas para o servidor da aplicação web. O primeiro processo é converter as imagens para escala de cinza, e então aplicar o detector de face na imagem, quanto a face é encontrada então é aplicado ainda o detector de olhos para garantir que a face detectada realmente é uma face humana e não alguma inconsistência do algoritmo. Após a confirmação da face detectada, ela é recortada da imagem inicial e então redimensionada em um padrão de 200x200 \textit{pixels}, pois o algoritmo exige que todas imagens possuam as mesmas dimensões. Este procedimento é feito para todas as imagens que são armazenadas em uma lista. Esta lista é passada para o algoritmo de treinamento juntamente com uma segunda lista com a mesma quantidade de elementos contendo a classe de cada imagem respectivamente. No caso desta implementação contém só uma classe que é a classe 1 do usuário.
+
+O resultado obtido pelo treinamento do algoritmo \textit{Fisherfaces} é um arquivo contendo as características extraídas das imagens e que representa o seu treinamento. Este arquivo é utilizado para realizar o reconhecimento das faces na autenticação biométrica. O procedimento de reconhecimento da face é semelhante ao do treinamento, onde a imagem a ser reconhecida passa pelas mesmas técnicas de pré-processamento e utilizada pelo algoritmo juntamente com o arquivo gerado pelo treinamento para obter a classificação. O retorno do algoritmo são dois parâmetros, a classe da imagem reconhecida e a confiança do reconhecimento. A classe é referente a classe informada no processo de treinamento, e caso a face não seja reconhecida é retornado uma constante -1, e a confiança é um número que representa a distância entre a imagem a ser reconhecida e as imagens do treinamento. Quanto mais próximo a zero, mais a imagem se assemelha as utilizadas no treinamento.
+
+\section{Cadastro de senhas}
+Quando o usuário é autenticado com sucesso, através do usuário e biometria ou senha, ele é redirecionado para a tela principal, onde está a principal funcionalidade do sistema, o armazenamento seguro das senhas. Após a autenticação do usuário é possível acessar a tela principal, onde são estão cadastradas as senhas e informações adicionais do usuário. É possível editar excluir e adicionar novas senhas. Para cada senha pode ser informado um usuário, a senha em si, a \textit{URL} do serviço ou \textit{website} referente e uma descrição. Estas informações só estão visíveis em forma de texto claro, pois o usuário está autenticado no sistema. 
+
+Caso contrário elas não podem ser acessadas, e são armazenadas em um banco de dados em forma de texto cifrado. O processo de criptografia é feito utilizando uma chave composta, onde uma parte da chave é informada pelo usuário ao criar sua conta, e a outra metade é definida internamente pelo sistema. Cada vez que o usuário é autenticado com sucesso, as senhas são então decifradas utilizando esta chave composta. A cifragem das senhas é a principal forma de segurança do sistema e garantem que mesmo que o banco de dados seja obtido por pessoas mal-intencionadas, elas sejam extremamente difíceis de serem decifradas.
+
+O sistema possui uma funcionalidade importante que serve para encaminhar o seu uso da forma correta, esta funcionalidade é a geração de senhas automaticamente. Ao adicionar uma nova senha, o usuário tem a possibilidade informar a senha, ou gerar uma aleatoriamente informando o número máximo de caracteres que a esta poderá conter, por padrão este número está definido em 15 caracteres. Como dito, as senhas geradas são complexas e não consideram nenhuma informação ou característica do usuário. Estas senhas geradas são consideradas complexas pois são compostas por diferentes tipos de caracteres como, letras maiúsculas e minúsculas, dígitos e caracteres especiais.
+
+
+
+O uso desta funcionalidade é extremamente recomendado aos usuários, pois ele é uma da justificativa a uma das principais razões para se utilizar um sistema de armazenamento de senhas, que é a utilização de senhas que sejam complexas, longas e difíceis de se memorizar. Então, é interessante que ao ir se registrar em um novo serviço ou \textit{website} na internet, o usuário utilize o sistema para criar uma nova senha, e ele não precisa utilizar uma senha repetida ou ter de memorizar a mesma.
+
+
+
+\section{Armazenamento seguro de senhas}
+Para aumentar a segurança da aplicação e proteger os dados dos usuários, foram aplicados as técnicas e algoritmos de criptografia estudados. Basicamente foram utilizadas duas diferentes formas de criptografia, a simétrica para as informações sobre as senhas cadastradas no sistema, e assimétrica para cifrar a senha do usuário do sistema efetivamente. 
+
+O sistema desenvolvido utiliza biometria para autenticação, porém ainda é necessário que o usuário possua uma senha mestre para casos como, o primeiro uso do sistema antes de realizar a calibragem das biometrias, ou caso o seu dispositivo não possua meios de capturar suas biometrias e o usuário precisa de suas informações. Para criptografar esta senha foi utilizado o algoritmo SHA256, que é um algoritmo assimétrico que realiza a criptografia da senha, e não é capaz de realizar o processo inverso. O algoritmo utilizado é implementado pela biblioteca \textit{passlib} em Python, e possui algumas características que aumentam sua segurança. Como pode ser visto na figura \ref{fig:sha256} o algoritmo é utilizado para criptografar a mesma palavra (\textit{password}), porém ele não resulta na mesma palavra criptografada. Isto ocorre pois ele utiliza uma técnica de \textit{salt}, onde é utilizado informações adicionais do sistema para acrescentar uma sequência extra de caracteres no resultado criptografia. Isto o torna mais robusto contra-ataques do tipo \textit{hashtables} \cite{schneier:2007}, que são tabelas que contém palavras mapeadas a sua versão criptografada. Então a senha mestre do usuário é criptografada utilizando o algoritmo SHA256 e a cada tentativa de autenticação sua senha informada é criptografada e então comparada com a armazenada no banco. O algoritmo consegue verificar se elas vêm da mesma palavra mesmo gerando 
+\textit{hashs} diferentes.
+
+\begin{figure}[H]
+  \centering
+  \caption{Algoritmo SHA256.}
+  \includegraphics[width=\textwidth]{images/sha256.png}
+  \fonte{(AUTORES, 2018)}
+  \label{fig:sha256}
+\end{figure}
+
+Já para a criptografia das informações de senhas cadastradas pelo usuário, é utilizado uma técnica de criptografia simétrica, pois estas informações precisam ser decifradas quando o usuário deseja visualizá-las. O algoritmo utilizado foi o AES, implementado pela biblioteca \textit{PyCrypto}. O algoritmo utiliza uma chave única, que é utilizada na cifragem e decifragem de textos. Para aumentar a segurança do sistema a chave utilizada no algoritmo é composta de duas partes, uma que é informada pelo usuário durante o seu cadastro, e outra que é mantida pelo sistema. O conjunto das duas gera uma chave única que então é utilizada com o AES. A cada autenticação com sucesso as senhas e informações adicionais do usuário são decifradas e podem ser visualizadas em forma de texto.
+
+
+
+
+
+\section{Acesso as senhas}
+Antes de acessar o sistema é preciso criar um novo usuário, para isto existe uma tela onde são preenchidas suas informações e então criado o usuário. A criação de um usuário não envolve o cadastro e calibragem do reconhecimento facial, pois isto é feito após o primeiro acesso ao sistema. Como pode ser visto na Figura \ref{fig:cadastro-usuario}, no cadastro de um novo usuário é preciso informar um nome de usuário, e-mail, a senha e sua confirmação, assim como uma chave que é utilizada parcialmente para a criptografia das senhas cadastradas futuramente. Também é validado se a senha informada é considerada uma senha forte, contendo caracteres variados como letras maiúsculas e minúsculas, dígitos e caracteres especiais, além de não ser muito curta, pois esta senha é importante para o usuário e não deve ser uma senha simples que pode ser adivinhada através de tentativa e erro.
+
+\begin{figure}[H]
+  \centering
+  \caption{Cadastro de novo usuário.}
+  \includegraphics[width=\textwidth]{images/cadastro-usuario.png}
+  \fonte{(AUTORES, 2018)}
+  \label{fig:cadastro-usuario}
+\end{figure}
+
+
+Para acessar o sistema é preciso primeiramente ter criado um usuário, então basta utilizar as informações de usuário e senha para acessar o sistema. Na Figura \ref{fig:login} é possível visualizar a tela de login, onde existem dois campos, um para o usuário e outro para a senha, e uma área de visualização previa da câmera do dispositivo. A captura da imagem da câmera serve para o processo de reconhecimento biométrico e para possibilitar o seu uso, é preciso conceder as permissões necessárias para que o usuário possa se autenticar utilizando o reconhecimento facial. Então a autenticação pode ser feita utilizando o usuário e senha cadastrados, ou o usuário e a sua face. Após pressionar o botão entrar, o sistema busca pelo usuário informado, se foi informado uma senha, é feito o login utilizando a mesma, caso contrário é utilizado o reconhecimento biométrico da face capturada no momento em que foi pressionado o botão. Se o usuário e/ou senha estiverem incorretos, ou a face não for reconhecida, o usuário é redirecionado novamente para a tela de login e é apresentado uma mensagem de erro não específica sobre a falha na autenticação.
+
+\begin{figure}[H]
+  \centering
+  \caption{Tela de login.}
+  \includegraphics[width=\textwidth]{images/nao-reconhecida_censored.jpg}
+  \fonte{(AUTORES, 2018)}
+  \label{fig:login}
+\end{figure}
+
+
+
+
+
+

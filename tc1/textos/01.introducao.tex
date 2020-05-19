@@ -1,0 +1,27 @@
+\chapter{Introdução}
+\label{introducao}
+
+O uso de senhas para autenticação é um dos meios mais adotados atualmente, estando presente na maioria dos serviços disponíveis na web, e a utilização de uma única senha para diversos serviços pode trazer vulnerabilidades ao usuário, pois a perda ou descoberta desta senha pode comprometer a segurança de todos os seus sistemas e serviços. Por outro lado, o uso de senhas diferentes para cada serviço acaba se tornando inconveniente pois são difíceis de memorizar \cite{Huiguang:2014}.
+
+A autenticação através de biometria estabelece a identidade baseada em características físicas e comportamentais (como face e voz), diminuindo a inconveniência para usuários de terem de criar e lembrar de senhas seguras \cite{gofman:2016}. Infelizmente algumas destas características podem ser facilmente obtidas: faces são publicamente disponíveis e digitais permanecem em superfícies intactas. Por isto, o uso de múltiplas características biométricas é preferido a fim de aumentar a segurança e identificação correta do usuário \cite{Agholor:2016}.
+
+As características biométricas de uma pessoa podem ser reconhecidas através do uso de técnicas de processamento de imagens e voz aliadas à métodos de aprendizado de máquina. Para isto é necessário construir uma base de dados com exemplos de dados obtidos a partir da leitura destas características, sobre o qual são aplicados os algoritmos de aprendizado de máquina a fim de construir um modelo das propriedades biométricos de cada pessoa \cite{heinen:2005}.
+
+Segundo \cite{mitchell:l997}, um programa aprende quando sua performance melhora com a experiência em uma determinada tarefa. Elas são especialmente úteis em domínios onde humanos ainda não possuem o conhecimento necessário para desenvolver algoritmos efetivos, como reconhecimento de faces humanas em imagens. 
+
+Técnicas de aprendizado de máquina têm sido utilizadas por obterem ótimos resultados em uma grande variedade de aplicações. Em seu trabalho \cite{violajones:2001}, demonstra que é possível obter ótimos resultados na detecção de faces em imagens, utilizando árvores de decisão e grandes bases de treinamento, chegando a taxas de reconhecimento acima de 94\%.
+
+Já \cite{ranny:2016} em seu trabalho sobre reconhecimento de voz, atinge uma taxa de reconhecimento de 84.5\%, através do algoritmo \textit{k-Nearest Neighbors}, e surpreendentes 96.97\% utilizando o método de distância dupla.
+
+O reconhecimento da íris também demonstra grande potencial para autenticação biométrica, pois trabalhos como o de \cite{pavaloi:2017} demonstram ótimos resultados neste tipo de problema, utilizando as técnicas de \textit{Support Vector Machine} e \textit{k-Nearest Neighbors}, e bases de treinamento como UBIRIS \cite{ubiris:2009}, o autor obteve taxas de reconhecimento acima de 90\%.
+
+Entretanto o uso de autenticação biométrica em um sistema de gerenciamento de senhas melhora sua usabilidade e segurança, porém para a garantir a confiabilidade geral do sistema é preciso realizar o armazenamento de senhas de uma forma segura, pois o armazenamento em formato de texto simples é uma solução extremamente frágil em termos de segurança. Para isto podem ser utilizadas técnicas de criptografia.
+
+Segundo \cite{schneier:2007} um algoritmo de criptografia, também conhecido como cifrador, é uma função matemática usada para cifragem e decifragem. Para \cite{stallings:2014} algoritmos criptográficos são técnicas para garantir o sigilo e/ou a autenticidade da informação. Os dois ramos principais da criptologia são a criptografia, que é o estudo do projeto dessas técnicas; e a criptoanálise, que trata de frustrar essas técnicas, recuperar informações ou forjar informações que serão aceitas como autênticas.
+
+Neste trabalho será explorado o uso de algoritmos de criptografia baseados em chaves, que podem ser classificados em dois tipos: simétricos, onde geralmente existe uma chave em comum que é utilizada para cifragem e decrifragem; e os de chave pública, onde a chave de cifragem é diferente da de decifragem \cite{schneier:2007}. 
+
+Em seu trabalho, \cite{panda:2016} realiza diversos testes sobre os principais algoritmos de criptografia simétricos e assimétricos, como: AES, DES, RSA, BLOWFISH. E ele observa que o desempenho de algoritmos assimétricos é quase mil vezes mais lento quando comparados aos simétricos, em relação ao seu tempo de cifragem, decifragem e vazão.
+
+A vantagem do armazenamento de senhas criptografadas é que mesmo que o acesso a elas seja comprometido elas não podem ser facilmente recuperadas sem que se tenha a chave utilizada na encriptação, e os dados obtidos não passam de sequencias aleatórias de caracteres \cite{chanda:2016}.
+

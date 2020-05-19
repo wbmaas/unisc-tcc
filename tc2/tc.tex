@@ -1,0 +1,71 @@
+\documentclass[tc]{unisc}
+
+\usepackage[T1]{fontenc}        % Suporte a acentuação no arquivo de saída
+\usepackage[utf8]{inputenc}     % Codificação dos arquivos de entrada em UTF-8
+\usepackage[english,brazilian]{babel}
+
+\usepackage{graphicx}           % Para adicionar figuras
+\usepackage{float}              % Maior controle de objetos "float" (tabelas, figuras, etc.)
+\usepackage{enumerate}
+
+\usepackage{capt-of}
+\usepackage{longtable}
+\usepackage{tabularx}
+
+\graphicspath{ {images/} }
+
+
+% ==================================================================================
+%
+%                         INFORMAÇÕES GERAIS
+%
+% ==================================================================================
+
+%\title{Sistema de armazenamento de senhas seguro com autenticação biométrica}    % Título do Trabalho
+\title{PWFaces: Gerenciador de senhas com autenticação biométrica}
+\author{Maas}{William Bozzetti}             % Autor do Trabalho
+\advisor[Prof. Me.]{Neu}{Charles Varlei}    % Orientador
+%\reviewer[Prof. Dra.]{Frozza}{Rejane}       % Avaliador 1
+\reviewer[Prof. Me.]{Helfer}{Gilson}        % Avaliador 2
+\reviewer[Prof. Dr.]{Tedesco}{Leonel}       % Avaliador 3
+
+\dept{Departamento de Informática}
+\course{Curso de Ciência da Computação}
+\degree{Bacharel em Ciência da Computação}
+\location{Santa Cruz do Sul}{RS}
+\date{22}{junho}{2018}
+
+\makeindex
+
+% ==================================================================================
+%
+%                         CONTEÚDO
+%
+% ==================================================================================
+
+
+\begin{document}
+
+\makecapa
+\maketitle
+
+\input{textos/resumo.tex}
+\input{textos/abstract.tex}
+\listoffigures
+\listoftables
+\tableofcontents
+
+\input{textos/01.introducao.tex}
+\input{textos/02.fundamentacao_teorica.tex}
+\input{textos/03.trabalhos_relacionados.tex}
+\input{textos/04.metodologia.tex}
+\input{textos/05.modelagem.tex}
+\input{textos/06.sistema.tex}
+\input{textos/07.resultados.tex}
+\input{textos/08.conclusao.tex}
+
+\bibliography{referencias}
+
+% Anexos
+
+\end{document}

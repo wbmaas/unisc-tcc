@@ -1,0 +1,60 @@
+\chapter{Metodologia}
+\label{metodologia}
+
+Este capítulo apresenta a caracterização da pesquisa e os procedimentos metodológicos utilizados para o alcance dos objetivos. A pesquisa é exploratória, a partir da análise dos trabalhos relacionados sobre os temas de autenticação biométrica e sistemas de gerenciamento de senhas. O objetivo é procurar diferentes técnicas para o reconhecimento facial e de voz, a fim de aplicar as que possuem os melhores resultados no sistema de gerenciamento de senhas desenvolvido. 
+
+Sobre o levantamento bibliográfico são pesquisados trabalhos relacionados a aplicação de técnicas de aprendizado de máquina no reconhecimento de características biométricas para autenticação em gerenciadores de senhas, e técnicas de criptografia. O ambiente de pesquisa é bibliográfico, onde serão buscadas fontes através de livros sobre segurança e criptografia de dados, autenticação utilizando características biométricas, aprendizado de máquina, artigos, outros trabalhos de conclusão desenvolvidos, Internet.
+
+O procedimento de validação do sistema será qualitativo, onde será feita uma síntese dos resultados obtidos, evidenciando as contribuições, relatando as limitações do estudo, relacionando os fatos verificados com a teoria. Além disso, serão feitos testes sobre o processo de autenticação através do uso de biometria e algoritmos de aprendizado de máquina.
+
+\section{Bibliometria quantitativa}
+
+A bibliometria foi realizada a partir das bases de dados  \textit{IEEE Xplore} e \textit{ACM Digital Library}. As pesquisas nas bases foram feitas tanto com as sentenças completas como \textit{Biometric Authentication} quanto com as palavras separadas como \textit{Biometric AND Authentication}, sendo que todas as pesquisas foram realizadas com as expressões em inglês.
+
+Apesar de existirem várias publicações relacionadas ao tema de autenticação biométrica, percebe-se que há um número bem menor de trabalhos relacionados aos temas abordados neste projeto. A análise considerou apensa publicações a partir de 2010. As Tabelas \ref{bibliometria separada} e \ref{bibliometria completa} mostram, respectivamente, os valores obtidos a partir das pesquisas utilizando as palavras separadas e sentenças completas. As células marcadas com traços nas tabelas são pesquisas já realizadas de acordo com a orientação "linha e coluna".
+
+\begin{table}[H]
+\centering
+\caption{Bibliometria realizada com as palavras separadas}
+\label{bibliometria separada}
+\begin{tabular}{|l|c|c|c|c|}
+\hline
+\multicolumn{1}{|c|}{{\textit{\begin{tabular}[c]{@{}c@{}}IEEE Xplore e \\ ACM Digital Library \\ – Critério de pesquisa:\\ “Linha” and “Coluna”\end{tabular}}}} & \multicolumn{2}{c|}{\textit{Biometric Authentication}} & \multicolumn{2}{c|}{\textit{Password Management}} \\ \cline{2-5} 
+\multicolumn{1}{|c|}{} & \textit{\begin{tabular}[c]{@{}c@{}}IEEE\\ Xplore\end{tabular}} & \textit{\begin{tabular}[c]{@{}c@{}}ACM\\ Digital Library\end{tabular}} & \textit{\begin{tabular}[c]{@{}c@{}}IEEE\\ Xplore\end{tabular}} & \textit{\begin{tabular}[c]{@{}c@{}}ACM\\ Digital Library\end{tabular}} \\ \hline
+\textit{Biometric Authentication} & 2435 & 290 & - & - \\ \hline
+\textit{Password Management} & 59 & 16  & 350 & 144 \\ \hline
+\end{tabular}
+\fonte{(AUTORES, 2017)}
+\end{table}
+
+
+\begin{table}[H]
+\centering
+\caption{Bibliometria realizada com a sentença completa}
+\label{bibliometria completa}
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+{\textit{\begin{tabular}[c]{@{}c@{}}IEEE Xplore e \\ ACM Digital Library \\ – Critério de pesquisa:\\ “Linha” and “Coluna”\end{tabular}}} & \multicolumn{2}{c|}{\textit{Biometric Authentication}}            & \multicolumn{2}{c|}{\textit{Password Management}}                                                                \\ \cline{2-5} 
+& \textit{\begin{tabular}[c]{@{}c@{}}IEEE\\ Xplore\end{tabular}} & \textit{\begin{tabular}[c]{@{}c@{}}ACM\\ Digital Library\end{tabular}} & \textit{\begin{tabular}[c]{@{}c@{}}IEEE\\ Xplore\end{tabular}} & \textit{\begin{tabular}[c]{@{}c@{}}ACM \\ Digital Library\end{tabular}} \\ \hline
+\textit{Biometric Authentication} & 2435 & 2870 & - & - \\ \hline
+\textit{Password Management} & 59 & 390 & 350 & 52444 \\ \hline
+\end{tabular}
+\fonte{(AUTORES, 2017)}
+\end{table}
+
+
+
+\section{Procedimentos Metodológicos}
+Inicialmente, foram pesquisados trabalhos relacionados para identificar o estado da arte sobre o processo de autenticação biométrica. Sobre os trabalhos relacionados estudadas foram selecionados os que utilizaram características biométricas e comportamentais que pudessem ser coletadas através de um \textit{Smartphone} de forma conveniente. Foi feita uma análise das biometrias utilizadas nos trabalhos e os resultados obtidos em relação ao objetivo de autenticação biométrica.
+
+Após o estudo e escolha das biometrias utilizadas no sistema, foi feito uma comparação sobre as diferentes técnicas e algoritmos utilizados para realizar o reconhecimento das mesmas. A partir dos métodos que tiveram melhores taxas de reconhecimento, foram pesquisadas tecnologias de código livre possam ser utilizadas para o desenvolvimento do sistema. Como a maioria dos algoritmos de reconhecimento biométrico vem da área de aprendizado de máquina, foram estudados bibliotecas como: \textit{Scikit-Learn}, \textit{Scikit-Image} e \textit{OpenCV}.
+
+Também foram pesquisadas bases de características biométricas para o treinamento dos algoritmos de aprendizado de máquina utilizados no sistema, e que também possam ser utilizadas como bases de teste para validação do processo de autenticação biométrica no sistema de gerenciamento de senhas. Já para a parte de segurança do sistema foram estudadas as principais técnicas de criptografia utilizadas atualmente para o armazenamento seguro de dados. Na figura \ref{fig:procedimentos-metodologicos}, é possível visualizar um resumo dos procedimentos metodológicos definidos para o desenvolvimento do trabalho.
+
+\begin{figure}[H]
+  \centering
+  \caption{Procedimento metodológicos.}
+  \includegraphics[width=\textwidth]{images/procedimentos-metodologicos.png}
+  \fonte{(AUTORES, 2017)}
+  \label{fig:procedimentos-metodologicos}
+\end{figure}

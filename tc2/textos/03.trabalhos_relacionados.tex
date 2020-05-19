@@ -1,0 +1,136 @@
+\chapter{Trabalhos relacionados}
+\label{trabalhos-relacionados}
+
+A partir da pesquisa em bases de dados científicas foram selecionados alguns trabalhos relacionados aos temas de autenticação biométrica e sistemas de gerenciamento de senhas. Cada um destes trabalhos é descrito nas seções seguintes.
+
+\section{Multimodal Biometrics for Enhanced Mobile Device Security}
+Em seu trabalho \cite{gofman:2016} desenvolveu um sistema de autenticação biométrica multi modal para dispositivos móveis, onde são utilizados reconhecimento facial e reconhecimento de voz para o processo de autenticação, a fim de tornar mais robusto e seguro o uso de biometria em dispositivos móveis. Uma grande parte dos dispositivos móveis do mercado já suportam reconhecimento de faces, voz e digitais. E para a parte de reconhecimento facial do sistema foi utilizado a técnica  \textit{FisherFaces}, pois ela funciona bem em casos de imagens capturadas em condições variadas, o que é o caso de imagens de faces obtidas pelos dispositivos móveis. 
+
+Já para o Reconhecimento de voz foram utilizados duas técnicas: \textit{Hidden Markov Models} (HMM) baseada na \textit{Mel-Frequency Cepstral Coefficients} (MFCCs) como caracteristicas de voz, que foi a base para esquema de combinação de resultados baseado em nota, e \textit{Linear Discriminant Analysis} (LDA) que foi a base para o esquema de combinação de resultados baseado em características. Ambas as técnicas são capazes de reconhecer a voz do usuário independente das frases faladas. A qualidade da imagem facial é calculada baseando-se na luminosidade, nitidez e contraste, enquanto a qualidade da gravação de voz é baseada na relação sinal-ruído.
+
+O treinamento e teste do sistema é feito com vídeos de pessoas segurando a câmera do dispositivo em frente ao seu rosto enquanto falam uma certa frase. Para cada vídeo a face é detectada utilizando o algoritmo de Viola-Jones, e a gravação de som é processada removendo todas frequências fora do nível da voz humana (85Hz-255Hz). O treinamento do sistema foi feito utilizando vídeos de metade das pessoas da base de dados (27 de um total de 54), enquanto todos os vídeos foram utilizados nos testes.
+
+A maioria dos vídeos foram coletados em condições controladas com boa luz e pouco ruído de fundo, e também foram adicionadas algumas amostras de vídeo e som de baixa qualidade para aumentar a chance do algoritmo identificar corretamente o usuário em condições similares. O melhor resultado foi obtido no cálculo de combinação baseado em características, que obteve as taxas de erro de 4,3\% no reconhecimento facial, 34,7\% no reconhecimento de voz e 2,1\% na combinação. O sistema baseado em faces e voz foi implementado em um dispositivo \textit{Samsung Galaxy S5}, obteve grande precisão na autenticação, quando comparado a sistemas onde são utilizados somente faces ou voz. Futuramente planeja-se explorar outras técnicas de reconhecimento facial, como \textit{Gabor wavelets} e \textit{Histogram Oriented Gradients} (HOG).
+
+
+
+\section{Facial Recognition using Histogram of Gradients and Support Vector Machines}
+O trabalho apresentado por \cite{julina:2017}, tem como objetivo principal realizar o reconhecimento facial utilizando as técnicas de \textit{Suport Vector Machines} (SVM) e histograma de gradientes. O sistema desenvolvido foi projetado para lidar com problemas de pose e iluminação no reconhecimento de faces. O sistema conta com a base de dados de faces AT \& T, que contém faces de 40 pessoas, com 10 amostras de cada. Todas as imagens são do mesmo tamanho, e contem diferentes poses e expressões faciais da mesma pessoa, com iluminação constante. São acrescentados a base mais um conjunto de 10 imagens de uma pessoa em diferentes poses, tiradas em condições de luz diferentes. E esta base é dividida em dois conjuntos, o de treinamento e o de teste.
+
+Para que se obtenha boas taxas de reconhecimento é preciso realizar o pré-processamento de novas imagens antes de adiciona-las a base de dados. Todas as novas imagens são recortadas utilizando o algoritmo de Viola-Jones, e redimensionadas para o padrão em comum de 112 X 92 pixels. A extração de características e classificação das imagens é obtida pelo histograma de gradientes. Dentre as imagens das 41 pessoas na base de dados totalizando 369 imagens, são separadas 1 de cada conjunto e utilizadas para a base de testes totalizando 41 imagens. Estas bases são utilizadas para o treinamento do algoritmo SVM, e quando uma das imagens da base de testes é utilizada na entrada do algoritmo ele retorna todas as imagens reconhecidas na base de treinamento.
+
+Para validação do modelo de classificação foi formulado uma matriz de confusão sobre os dados de teste. Para isto são separados os acertos e os erros, cada um em corretamente e incorretamente identificados, e o nível de precisão é calculado através da soma entre os identificados corretamente (37) e os identificados incorretamente (0), dividido pelo total da base de testes (41), que resultou em 90.2439\% de precisão. O método proposto é capaz de realizar o reconhecimento de faces em diferentes poses e condições de iluminação, demonstrando baixa quantidade de falsos positivos e uma melhoria na precisão de detecção. Para trabalhos futuros busca-se o reconhecimento de faces em imagens 3D, utilizando os conceitos de \textit{deep learning} onde redes neurais convolucionais são utilizadas.
+
+
+
+\section{Voice Recognition using k Nearest Neighbor and Double Distance Method}
+O trabalho apresentado por \cite{ranny:2016}, tem como objetivo principal realizar reconhecimento de voz utilizando as técnicas de \textit{k Nearest Neighbor}  (k-NN) e \textit{Double Distance Method}. Reconhecimento de voz é um dos sistemas que se desenvolveu baseado em reconhecimento de padrões. O processo de reconhecimento de voz é baseado em reconhecimento de padrões e pode ser desenvolvido utilizando vários tipos de métodos, entre eles estão, \textit{Dynamic Time Wrapping} (DTW), \textit{Linear Vector Quantization} (LVQ), Redes Neurais artificiais (RNA) entre outros.
+
+A estrutura de um sistema de reconhecimento de voz consiste de duas etapas, que são o treinamento e teste. Na etapa de treinamento é feita a extração da característica da voz utilizando \textit{Mel Frequency Cepstrum Coefficients} (MFCC). O objetivo do MFCC é converter o sinal do domínio de tempo para o domínio de frequência. Sinais no domínio do tempo são mais difíceis de serem processados e analisados por sua alta quantidade e complexidade dos dados. Já o sinal no domínio da frequência é simples de ser analisado pois o padrão do sinal é obtido dos dados.
+
+O próximo passo é o processo de teste, onde é utilizado o método kNN com o método de distância dupla proposto e k = 1. Sistemas de reconhecimento de voz precisam de uma grande quantidade de dados de treinamento em ordem para aumentar seu nível de precisão. Normalmente, o algoritmo 1-NN calcula a média dos dados de treinamento e usa este valor para representar uma classe. O resultado do reconhecimento é obtido através do cálculo da menor distância entre o teste e a média da classe. Isto faz com que o processo de reconhecimento leve mais tempo. E o sistema de reconhecimento de voz também necessita de um método para cuidar dos dados aberrantes para aumentar a precisão, pois o 1-NN não é adequado para este tipo de aplicação.
+
+Foram feitos dois experimentos para comprovar a melhoria da precisão no reconhecimento de voz. No primeiro experimento é utilizado o método 1-NN e são calculados utilizando o cálculo de média, e baseado neste teste o nível de precisão é de 84,85\%. O segundo experimento é realizado utilizando os mesmos dados do primeiro e o método de distância dupla, e o resultado dos testes demonstra um nível de precisão de 96,97\%. O método de distância dupla proposto demonstrou melhoria em sua utilização com o método 1-NN, especialmente em amostras com \textit{outliers}. A comparação entre o método de distância dupla e outros métodos de aprendizado de máquina como \textit{Hidden Markov Model}, Redes Neurais e \textit{Linear Predictive Code} podem ser tópicos de pesquisas futuras.
+
+
+
+\section{Artificial Neural Network Based Multimodal Biometrics Recognition System}
+O trabalho apresentado por \cite{Lathika:2014}, tem como objetivo principal o desenvolvimento de um sistema de reconhecimento biométrico multimodal para prover segurança e autenticação, utilizando três características biométricas que são: face, orelha e maneira de andar. O projeto do sistema proposto consiste de seis módulos, que são: aquisição da imagem, extração de características, treinamento da rede neural artificial, normalização, combinação e decisão final.
+
+A primeira etapa no desenvolvimento de um sistema de reconhecimento biométrico é a obtenção dos dados biométricos do sensor de \textit{hardware}. E o resultado é uma imagem ou sinal capturado da característica biométrica. O módulo de extração de características é responsável pesa transformação dos dados de entrada em conjuntos de características, e para este trabalho é utilizado a técnica de \textit{Discrete Wavelet Transform} (DWT). Esta técnica decompõe os sinais de entrada em conjuntos de funções básicas que são chamadas de \textit{wavelets}.
+
+Para realizar a classificação da biometria é utilizado uma rede neural artificial do tipo \textit{feedforward}. Uma rede neural artificial (RNA) é um paradigma de processamento de informações que é inspirado pela maneira que o cérebro humano funciona. O módulo de normalização tem a função transformar os dados em um único domínio para que seja possível sua comparação e classificação. Para este sistema o método de normalização utilizado é o \textit{z-score}. Para realizar o processo de combinação das notas calculadas para as três características biométricas, é utilizado a técnica de soma com pesos. Cada característica é processada separadamente e são atribuídas notas para cada entrada. Então a nota composta é calculada dependendo da precisão de cada biometria. Este tipo de combinação indica a proximidade entre os vetores de características a serem identificados.
+
+Para a simulação do sistema foram utilizadas várias bases de dados das biometrias propostas, que foram: base de dados de maneira de caminhar CASIA e GAID; USTB base de dados de orelhas; AR e UWA para faces e orelhas; e ORL base de faces. As imagens foram pré-processadas utilizando o filtro de \textit{Weiner}, a fim de amenizar ruídos e borrões das imagens. Após as imagens passam pelo processo de ampliação de contraste utilizando as técnicas de \textit{imadjust}, \textit{histeq} e \textit{adapthisteq}. São extraídas as características das imagens utilizando a técnica de DWT, e os vetores de características são utilizados como entrada para a RNA e é iniciado o processo de treinamento.
+
+Os testes são realizados utilizando 10, 20, 30 e 40 amostras e obteve um nível de precisão na identificação das características biométricas de 99.21\% com o maior número de amostras. O sistema obteve excelentes resultados de precisão no reconhecimento com alta performance, e se demonstrou superior a sistemas unimodais sobre bases de dados de imagens de faces, orelhas e maneira de caminhar. Como melhorias futuras, o sistema pode considerar o fator de envelhecimento das pessoas, porém este não é muito prático pois requer a extração de leituras biométricas sobre um período de tempo de meses ou anos.
+
+
+
+\section{Sesame: A Secure and Convenient Mobile Solution for Passwords}
+O trabalho apresentado por \cite{aliasgari:2015}, tem como objetivo principal desenvolver um sistema de de gerenciamento de senhas seguro para dispositivos móveis, utilizando reconhecimento de voz e de fala para realizar a autenticação e criptografia para armazenar de forma segura as senhas. O desenvolvimento do sistema se justifica pois os \textit{smartphones} atuais são capazes de capturar processar e armazenar informações pessoais facilmente, e a cada dia o número de dispositivos está aumentando.
+
+O Sesame realiza o armazenamento das senhas criptografadas, e para cada senha são utilizadas diferentes chaves para o algoritmo de criptografia, estas chaves são criptografadas com uma chave que é derivada da senha mestre. O armazenamento das senhas já criptografadas é feito no dispositivo e na nuvem de preferência do usuário. Já as chaves utilizadas para criptografia de cada senha são armazenadas em servidores do Sesame. 
+O processo de autenticação é realizado através do uso da senha mestre que o usuário deve informar na primeira vez que iniciar o aplicativo, ou através do reconhecimento de voz. O Sesame coleta uma amostra de 10 segundos da voz do usuário em sua primeira instalação para fazer a calibragem do reconhecimento de voz. Esta amostra é processada no servidor e é gerado um \textit{Gaussian Mixture Model} (GMM). O servidor gera uma ID única e retorna para a o dispositivo móvel, enquanto no dispositivo já são geradas um par de chaves pública e privada, e uma chave de criptografia de 256bit. Para o usuário visualizar suas senhas salvas ele fornece uma amostra de voz que é enviada para o servidor do Sesame, onde é aplicado o reconhecimento de voz, se a amostra estiver dentro de um limite aceitável o usuário que deseja acessar o sistema será autenticado. 
+
+A fim de definir o limite aceitável para a autenticação do usuário foram coletadas amostras de voz de 110 pessoas e conduzidos 23.409 testes de verificação. A técnica de \textit{Alize/LIA RAL toolkit} é utilizada para o reconhecimento de voz funciona independente das frase de amostra, e  para o reconhecimento de fala é utilizada a técnica \textit{Sphinx toolkit}. Ambas são de código aberto e foram desenvolvidas por universidades americanas. O trabalho proposto resultou no desenvolvimento de uma aplicação conveniente e segura para o armazenamento de senhas e dados privados de usuários. Para trabalhos futuros propõe-se a integração de outras modalidades de biometria, e a generalização do sistema para que possa realizar o armazenamento seguro de qualquer tipo de informação.
+
+
+\section{Multimodal biometric authentication based on voice, face and íris}
+O trabalho apresentado por \cite{barbu:2015}, tem como objetivo principal o desenvolvimento de um sistema de autenticação biométrica multimodal baseado em voz, face e íris. Para o sistema proposto são utilizadas três identificadores biométricos: voz, face e íris. Os dados destas características são fáceis de serem coletados, pois podem ser capturadas através de simples microfones e câmeras.
+
+O método de reconhecimento de voz utilizado é independente do texto da amostra, são extraídas as características do sinal através da técnica de \textit{cepstral melodic analysis}. Após as frequências são convertidas para escala de mel que é mais apropriada para voz então é calculado um \textit{delta mel frequency cepstral coefficients} (DDMFCC) para cada amostra, que então podem ser utilizados como entrada para um algoritmo de classificação supervisionada como: mínima distância média ou k-NN.
+
+Para o reconhecimento facial é utilizado a técnica \textit{Scale Invariant Feature Transform} (SIFT), publicada por David Lowe em 1999. Esta técnica faz a extração de pontos chave de uma imagem a fim de produzir uma descrição. Estas características não são afetadas pelo tamanho da imagem, sua orientação ou mudanças de iluminação, o que a torna robusta para descrição de faces. A técnica de SIFT resulta em um vetor de características, onde para que duas faces sejam consideradas da mesma pessoa ambos vetores precisam estar em uma distância próxima um do outro. Para a tarefa de reconhecimento das características faciais extraídas também são utilizadas as técnicas de mínima distância média ou \textit{K-Nearest-Neighbour} (K-NN).
+
+E finalmente para o reconhecimento de íris, é proposta uma técnica que explora a sua distribuição de cores. Uma imagem da íris é utilizada para o reconhecimento, e são consideradas somente a parte colorida da imagem, descartando a pupila no centro da imagem. Esta imagem é então dividida em quatro setores e para cada um é calculado seu histograma, e então o resultado deste processamento é obtido concatenando os quatro histogramas em um vetor de cores. Para a identificação da íris a classificação de mínima distância sobre o vetor de cores pode ser usada.
+
+Com todas as três características biométricas processadas o sistema realiza o processo de combinação. Este processo é realizado pode obter melhores resultados com as entradas das características originais de biometria, porém a combinação neste nível é desafiante pois os dados são incompatíveis em sua primeira forma, por isto no sistema proposto foi considerado a combinação no módulo de decisão. Foram explorados diferentes estratégias de combinação que são: \textit{majority voting}, \textit{behavior knowledge space method}, \textit{AND/OR rules and weighted based on Dempster-Shafter theory of evidence}. O escolhido para o sistema foi o de \textit{majority voting} aplicado sobre as três características.
+
+Foram realizados testes utilizando o sistema desenvolvido, e cada um dos três métodos de reconhecimento obteve resultados equivalentes ao estado da arte, e o sistema desenvolvido obteve uma taxa de reconhecimento de aproximadamente 90\%. O sistema desenvolvido se demonstrou eficiente para a autenticação de usuários, e o sistema pode ser melhorado em trabalhos futuros integrando outro reconhecimento biométrico como o de digitais.
+
+\section{A secured mobile-based password manager}
+O trabalho apresentado por \cite{Agholor:2016}, tem como objetivo principal o desenvolvimento de um sistema de gerenciamento de senhas seguro para dispositivos móveis. O sistema proposto é dividido em quatro módulos, sendo eles: modulo de credenciais, que é responsável para a criação de uma senha mestre, uma dica de recuperação, perguntas e respostas de verificação, além de informações do usuário.
+
+O módulo de gerenciamento é responsável pelo processo de geração de senhas, além dos processos de \textit{backup}, restauração e atualizações. Já o módulo de segurança é responsável pela cifragem e decifragem das credenciais fornecidas pelo módulo de gerenciamento, para isto é aplicado o esquema de criptografia \textit{Advanced Encryption Standard} (AES).
+
+Por fim o módulo que faz o armazenamento das credenciais no formato de arquivo descentralizado pelo trabalho. A segurança do sistema foi avaliada utilizando dispositivos móveis com senhas armazenadas de forma criptografada em cada um deles, então foram feitos tentativas de ataques contra estas senhas cifradas salvas em formato de arquivo. O resultado obtido foi que em 100 credenciais armazenadas em 10 diferentes dispositivos, apenas um deles foi capaz de descobrir a senha correta e invadir a conta do usuário. O trabalho proposto resultou em um sistema capaz de aumentar a segurança em sistema de armazenamento de senhas em dispositivos móveis.
+
+
+\section{Cloud password manager using privacy-preserved biometrics}
+O trabalho apresentado por \cite{yang:2014}, tem como objetivo principal o desenvolvimento de um sistema de gerenciamento de senhas em nuvem utilizando reconhecimento biométrico. O sistema proposto utiliza uma forma de autenticação em duas etapas, onde é utilizado uma senha mestre juntamente com biometria, este processo de autenticação está integrado, e não retorna informações para um usuário mal-intencionado sobre cada processo separadamente.
+
+O sistema faz a proteção das biometrias coletadas, onde elas são processadas utilizando uma técnica de transformação única, dificultando que elas sejam recuperadas pois não existe o processo inverso.
+As leituras biométricas e a senha mestre do usuário estão protegidas, e o sistema funciona de uma maneira em que caso a biometria ou a senha mestre sejam descobertas não seja possível a descoberta do outro. O sistema utiliza a nuvem para poder realizar a sincronização das senhas entre diversos clientes que estejam conectados ao servidor, e o tipo de biometria utilizado no sistema é o reconhecimento de digitais.
+
+Para se autenticar no sistema o usuário precisa primeiro fornecer a sua senha e a leitura biométrica, que passa pelo processo de transformação e combinação, e após são comparados com as credenciais do usuário no servidor. Após a autenticação o usuário pode utilizar o sistema de gerenciamento para criar, editar e remover as senhas cadastradas. Cada senha cadastrada no sistema é combinada com a chave mestre e biometria do usuário e cifradas antes de serem armazenadas. O sistema proposto apresenta uma solução segura para o armazenamento seguro de senhas, onde é feito o uso de autenticação de duas etapas com biometria e chave mestre para sincronizar senhas de forma segura entre servidores e clientes.
+
+
+
+\section{Discussão}
+Os trabalhos relacionados serviram de base para o desenvolvimento deste trabalho de conclusão de curso. Buscou-se analisar artigos que tivessem o objetivo similar, porém que utilizaram diferentes biometrias, técnicas de reconhecimento e técnicas de geração e armazenamento de senhas, a fim de definir as melhores combinações para o desenvolvimento do sistema proposto.
+
+Entre os oito trabalhos apresentados o que mais se aproxima do objetivo deste trabalho foi o de \cite{aliasgari:2015}, que tem como objetivo principal desenvolver um sistema de gerenciamento de senhas seguro para dispositivos móveis, utilizando reconhecimento de voz e de fala para realizar a autenticação e criptografia para armazenar de forma segura as senhas. A única diferença é que o processamento das biometrias é feito pelos servidores e não diretamente no dispositivo móvel.
+
+A Tabela \ref{comparativo} mostra um comparativo entre os trabalhos relacionados ao uso de reconhecimento biométrico analisados, levando em consideração as características biométricas utilizadas, as técnicas de reconhecimento biométrico.
+
+\begin{table}[H]
+\centering
+\caption{Comparativo entre os trabalhos de reconhecimento biométrico.}
+\label{comparativo}
+\begin{tabular}{|p{4cm}|p{4cm}|p{7cm}|}
+\hline Trabalho Relacionado & Biometria & Técnicas \\ 
+\hline \cite{gofman:2016}   & Face, Voz.                    & Fisherfaces, \textit{Hidden Markov Models}, \textit{Linear Discriminant Analysis}.\\ 
+\hline \cite{julina:2017}   & Face.                         & \textit{Suport Vector Machines}, Histograma de gradientes.\\ 
+\hline \cite{ranny:2016}    & Voz.                           & \textit{k Nearest Neighbor}, \textit{Double Distance Method}.\\ 
+\hline \cite{Lathika:2014}  & Face, Orelha, Modo de Andar. & \textit{Discrete Wavelet Transform}, Rede Neural Artificial.\\ 
+%\hline \cite{aliasgari:2015}& Voz, Fala.                     & \textit{Gaussian Mixture Model}, \textit{Alize/LIA RAL toolkit}, \textit{Sphinx toolkit}.\\ 
+\hline \cite{barbu:2015}    & Voz, Face, Íris               &  Miníma Distância Média, \textit{k Nearest Neighbor}, \textit{Scale Invariant Feature Transform}.\\ 
+%\hline \cite{yang:2014}     & Digitais  & Desconhecido \\ 
+\hline
+\end{tabular}
+\fonte{(AUTORES, 2018)}
+\end{table}
+
+Na Tabela \ref{comparativo}, a coluna "Biometria" refere-se as características biométricas utilizadas no trabalho. Todos os trabalhos realizaram a tarefa de reconhecimento de uma ou mais biometria, e os trabalhos \cite{gofman:2016}, \cite{Lathika:2014} e \cite{barbu:2015} aplicaram este reconhecimento em um sistema de autenticação, enquanto os outros tem como objetivo apenas o reconhecimento. Também é possível perceber que os trabalhos possuem características biométricas em comum que são: faces e voz.
+
+A coluna "Técnicas" refere-se as técnicas e algoritmos aplicados para realizar o reconhecimento biométrico. É possível perceber que todos os trabalhos utilizam algoritmos de aprendizado de máquina. E alguns destes algoritmos são utilizados em mais de um trabalho e até mais de uma característica biométrica, como é o caso do \textit{K-Nearest Neighbor} (KNN), que é utilizado para reconhecimento tanto de faces quando de voz.
+
+A Tabela \ref{comparativo2} mostra um comparativo entre os trabalhos relacionados ao gerenciamento de senhas de forma segura, levando em consideração as formas de autenticação, plataforma, algoritmos de criptografia e se possui gerador de senhas.
+
+\begin{table}[H]
+\centering
+\caption{Comparativo entre os trabalhos de gerenciamento de senhas.}
+\label{comparativo2}
+\begin{tabular}{|p{4cm}|p{3cm}|p{2cm}|p{3cm}|p{2cm}|p{2cm}|}
+\hline Trabalho Relacionado & Autenticação & Plataforma & Gerador senhas & Criptografia  \\ 
+\hline \cite{aliasgari:2015}& Senha, Biometria      & Mobile     & Não            & AES-256       \\
+\hline \cite{Agholor:2016}  & Senha, Biometria      & Mobile     & Sim            & AES           \\
+\hline \cite{yang:2014}     & Senha, Biometria      & Web        & Não            & AES-256       \\
+\hline
+\end{tabular}
+\fonte{(AUTORES, 2018)}
+\end{table}
+
+
+Na Tabela \ref{comparativo2}, a coluna "Autenticação" refere-se as características biométricas utilizadas no sistema. Todos os trabalhos realizaram a autenticação através de reconhecimento de reconhecimento biométrico e senhas. A coluna "Plataforma" refere-se a plataforma para qual o sistema foi desenvolvido. Também foram analisados os trabalhos a fim de verificar o uso de geração de senhas complexas, e quais algoritmos de criptografia são empregados.

@@ -1,0 +1,226 @@
+\chapter{Fundamentação Teórica}
+\label{fundamentacao-teorica}
+
+Este Capítulo aborda conceitos fundamentais para a realização da pesquisa e a descrição das principais técnicas para o desenvolvimento de um sistema de gerenciamento de senhas seguro com autenticação biométrica.
+
+
+\section{Reconhecimento de padrões}
+Segundo \cite{theodoridis:2009} reconhecimento de padrões é uma disciplina científica onde o objetivo é a classificação de objetos em categorias ou classes. Dependendo da aplicação, estes objetos podem ser imagens ou ondas de sinais ou qualquer tipo de medidas que precisam ser classificadas. 
+
+
+\subsection{Reconhecimento facial}
+Reconhecimento facial é o processo de identificar a face de uma pessoa em uma imagem ou video e este processo é dividido em várias etapas, algumas das principais são: detecção da face na imagem, sua extração, e a comparação entre a entrada e a imagem da face salva anteriormente \cite{rajesh:2016}.
+
+Paul Viola e Michael Jones em 2001 criaram um algoritmo eficiente para realizar a localização de faces em uma imagem. O algoritmo Viola-Jones consegue detectar objetos em imagens minimizando a computação necessária enquanto atinge resultados em tempo real, e tem seu resultado comprovado na identificação de faces em imagens \cite{violajones:2001}, e ainda é considerado como referência atualmente.
+
+Segundo \cite{opencv} o reconhecimento facial através de características geométricas da face é provavelmente o método mais simples, e ele bastante robusto em mudanças de iluminação, porém o posicionamento de pontos de referência (posição dos olhos, nariz, orelhas) no rosto são difíceis de serem calculados com exatidão, para que se possa formar um vetor de características como distância entre os pontos e angulo entre eles.
+
+Em seu trabalho \cite{belhumeur:1997} realizou uma análise entre quatro métodos utilizados para resolver o problema de reconhecimento de faces, que são: \textit{Correlation}, \textit{Linear Subspaces}, \textit{Eigenfaces} e \textit{Fisherfaces}. Através de testes utilizando imagens em condições de iluminação diferentes, e com expressões faciais diferentes, obteve-se um bom resultado com o método de \textit{Fisherfaces}, chegando a taxas de erro inferiores a 1\%, como pode ser observado na Figura \ref{fig:reconhecimento-facial}.
+
+\begin{figure}[H]
+  \centering
+  \caption{Taxas de erro entre diferentes métodos de reconhecimento facial.}
+  \includegraphics[width=\textwidth]{ReconhecimentoFacial.png}
+  \fonte{\cite{belhumeur:1997}}
+  \label{fig:reconhecimento-facial}
+\end{figure}
+
+Segundo \cite{rajesh:2016} \textit{Fisherfaces} é um dos melhores algoritmos na detecção de faces apresentando uma taxa de sucesso de aproximadamente 96\%. Ele realiza duas classes de análises para alcançar o reconhecimento que são: (PCA) \textit{principal component analisys} e (LDA) \textit{linear discrimination analysis} respectivamente. PCA é usado para reduzir a dimensionalidade da imagem, através deste processo o número de características da imagem também é reduzido. Já o LDA é um método discriminante usado em muitos problemas de reconhecimento, ele computa o grupo de características que normalizam as diferentes classes de dados da imagem para classificação.
+
+
+\subsection{Reconhecimento de voz}
+O reconhecimento de voz é uma das soluções que se desenvolveram baseados no reconhecimento de padrões. O processo de reconhecimento de voz na ciência da computação pode ser alcançado por diversos métodos, como: \textit{Dynamic Time Wrapping} (DWT), \textit{Linear Vector Quantization} (LVQ), \textit{Artificial Neural Networks} (ANN), e etc. Cada método tem suas vantagens e desvantagens baseado no tempo de processamento e precisão no reconhecimento \cite{ranny:2016}.
+
+Em seu trabalho \cite{aliasgari:2015} demonstra que o é possível realizar o reconhecimento de voz com algoritmos de aprendizado de máquina como o \textit{K-Nearest Neighbor} (k-NN). O reconhecimento funciona com a extração de características através da técnica de \textit{cepstral melodic analysis}, então é feita a conversão para escala de mel que é mais apropriada para o reconhecimento da voz, e por fim é calculado o \textit{delta mel frequency cepstral coefficients} (DDMFCC) que pode ser classificado utilizando o k-NN.
+
+
+\subsection{Reconhecimento de íris}
+Segundo \cite{pavaloi:2017} uma maneira comum de autenticação biométrica é através do reconhecimento de íris, uma das mais seguras e eficazes características biométricas. Atualmente existe um grande interesse em utilizar reconhecimento de íris para autenticação em \textit{smartphones} e \textit{tablets}, e este processo é parecido com o reconhecimento de outras características biométricas como faces, e é dividido em duas etapas, na primeira etapa, são adquiridas uma ou mais imagens da íris da pessoa, por meio de câmeras digitais no spectrum visível ou infravermelho. Na segunda etapa as imagens da íris capturadas são comparadas com as imagens armazenadas no banco de dados de íris. Duas imagens de íris são consideradas da mesma classe somente se elas pertencem a mesma pessoa. E através do uso de técnicas de aprendizado de máquina como k-NN (\textit{k - Nearest Neighborhood}) e SVM (\textit{Support Vector Machine}) é possível alcançar uma taxa de aproximadamente 96\% de reconhecimento.
+
+
+\section{Aprendizado de Máquina}
+Segundo \cite{scikit-learn} aprendizado de máquina se trata de aprender propriedades sobre um conjunto de dados, e aplicar este conhecimento sobre novos dados. Uma prática comum para avaliar um algoritmo de aprendizado de máquina é dividir os dados que se tem disponível em dois conjuntos, o conjunto de treinamento que é utilizado para extração de propriedades dos dados, e o conjunto de testes, que é utilizado para testar estas propriedades.
+
+Segundo \cite{george:2004} o reconhecimento de padrões teve suas origens da engenharia, onde o aprendizado de máquina surgiu da ciência da computação. Porém, ambas atividades podem ser vistas como duas faces da mesma área, e juntas elas têm se desenvolvido rapidamente na última década. Para \cite{mitchell:l997}, algoritmos de aprendizado de máquina tem grande sucesso prático em várias aplicações, especialmente em problemas de mineração de dados, reconhecimento de padrões, e problemas de alocação de recursos. Em sua grande maioria, os técnicas utilizados para reconhecimento de características biométricas, são algoritmos de classificação, sendo alguns dos principais o \textit{k Nearest Neighbor} (k-NN), Redes Neurais Artificiais (RNAs) \cite{mitchell:l997}.
+
+\subsection{k Nearest Neighbor}
+Segundo \cite{ranny:2016} o método k-NN é um algoritmo de aprendizado de máquina baseado no aprendizado supervisionado. Ele se baseia na similaridade de distância entre os dados de treinamento na dimensão dos atributos. Ele funciona calculando a distância entre os dados de teste e os dados de treinamento, a fim de determinar a entrada que possui a menor distância e classifica-la.
+
+O k-NN é aplicado em diversas técnicas de reconhecimento biométrico (Ex: \textit{Fisherfaces, Eigenfaces, reconhecimento de voz}), e também pode ser usado para problemas de classificação e regressão. Em ambos casos as entradas são as mesmas, porém as saídas dependem se ele for usado para classificação ou regressão \cite{altman:1992}:
+\begin{itemize}
+\item Na classificação, a saída é um membro da classe. Um objeto é classificado pela maioria dos votos entre seus vizinhos, com o objeto sendo designado a classe mais comum entre seus K vizinhos mais próximos. Se K = 1, então ele simplesmente irá pertencer a classe deste único vizinho mais próximo.
+\item Na regressão, a saída é o valor da propriedade do objeto. Este valor é o cálculo da média dos valores dos seus K vizinhos mais próximos.
+\end{itemize}
+
+
+\subsection{Redes Neurais Artificiais}
+Segundo \cite{Lathika:2014} Redes Neurais Artificiais (RNA) são um paradigma de processamento inspirado pela maneira que o cérebro humano funciona. Uma RNA aprende através de exemplos, e por isto são bastante utilizadas para o reconhecimento de padrões e classificação de dados. O processo de aprendizado em uma RNA envolve o ajuste dos pesos de suas conexões entre cada neurônio artificial. Em um sistema de reconhecimento biométrico as características extraídas são utilizadas como entrada para o treinamento de uma RNA. Após o processo de treinamento for concluído e a RNA convergir, ela pode ser usada para realizar o reconhecimento através de novas entradas biométricas.
+
+Segundo \cite{mitchell:l997}, RNAs são bem aplicadas em problemas onde os dados de treinamento são de sensores muito complexos e possuem ruídos, como imagens e sons obtidos através de câmeras e microfones. E também se aplicam a problemas de decisão, onde representações simbólicas são mais usadas, e consegue atingir resultados comparáveis a arvores de decisão.
+
+
+\section{Autenticação Biométrica}
+Existem três diferentes métodos para autenticação de usuários que são: \textit{"Algo que você sabe"} como senhas e PINs; \textit{"Algo que você tem"} como cartões físicos e tokens; e finalmente \textit{"Algo que você é"} como características físicas e comportamentais únicas dos seres humanos \cite{aliasgari:2015}.
+
+Autenticação biométrica procura identificar a identidade de uma pessoa através de uma ou mais de características físicas ou comportamentais únicas como: digitais, face, voz e íris. Os dispositivos biométricos capturam as características biométricas dos usuários e transformam em informações digitais para que possa interpreta-las e reconhece-las \cite{yang:2014}.
+
+Segundo \cite{gofman:2016} o uso de múltiplas características físicas ou comportamentais é o próximo passo para sistemas de autenticação biométrica mais seguros e robustos. E com a tecnologia atual presente na grande maioria dos \textit{smartphones} é possível tornar o uso de biometria multimodal conveniente para os usuários do dia a dia.
+
+
+
+\section{Algoritmos de criptografia}
+Segundo \cite{schneier:2007} um algoritmo de criptografia, também conhecido como cifrador, é uma função matemática usada para cifragem e decifragem. Para \cite{stallings:2014} algoritmos criptográficos são técnicas para garantir o sigilo e/ou a autenticidade da informação. Os dois ramos principais da criptologia são a criptografia, que é o estudo do projeto dessas técnicas; e a criptoanálise, que trata de frustrar essas técnicas, recuperar informações ou forjar informações que serão aceitas como autênticas.
+
+
+
+\subsection{Criptografia Simétrica}
+Segundo \cite{stallings:2014} um esquema de encriptação simétrica possui cinco itens que podem ser observados na Figura \ref{fig:modelo-encriptacao-simetrica}:
+
+\begin{itemize}
+\item Texto claro: essa é a mensagem ou dados originais, inteligíveis, que servem como entrada do algoritmo
+de encriptação.
+\item Algoritmo de encriptação: realiza diversas substituições e transformações no texto claro.
+\item Chave secreta: também é uma entrada para o algoritmo de encriptação. A chave é um valor independente do texto claro e do algoritmo. O algoritmo produzirá uma saída diferente, dependendo da chave usada no momento. As substituições e transformações exatas realizadas pelo algoritmo dependem da chave.
+\item Texto cifrado: essa é a mensagem embaralhada, produzida como saída do algoritmo de encriptação. Ela depende do texto claro e da chave secreta. Para determinada mensagem, duas chaves diferentes produzirão dois textos cifrados distintos. O texto cifrado é um conjunto de dados aparentemente aleatório e, nesse formato, ininteligível.
+\item Algoritmo de decriptação: esse é basicamente o algoritmo de encriptação executado de modo inverso.
+Ele apanha o texto cifrado e a chave secreta e produz o texto claro original.
+\end{itemize}
+
+\begin{figure}[H]
+  \centering
+  \caption{Modelo simplificado da encriptação simétrica.}
+  \includegraphics[width=\textwidth]{Modelo-simplificado-da-encriptacao-simetrica.png}
+  \fonte{\cite{stallings:2014}}
+  \label{fig:modelo-encriptacao-simetrica}
+\end{figure}
+
+Existem diversos tipos de algoritmos de criptografia simétricos e dois exemplos bastante utilizados são: DES e AES.
+
+
+
+\subsection{DES - \textit{Data Encryption Standard}}
+DES é um algoritmo de chave simétrica de bloco, o tamanho de sua chave é de 56 bits trabalha sobre blocos de 64 bits. Desenvolvido em 1974 e foi o primeiro padrão de criptografia recomendado pelo NIST (\textit{National Institute of Standards and Technology}). Ele pode operar em diferentes modos o que o torna flexível. 
+O seu algoritmo começa com uma permutação inicial, realiza dezesseis ciclos de cifragem em bloco e finaliza com outra permutação, este esquema geral para a encriptação DES pode ser observado na Figura \ref{fig:des}. Sua aplicação é bastante popular em diversos domínios como militar e comercial. Existem variações de sua implementação que estendem sua funcionalidade como: 3DES e AES \cite{panda:2016}.
+
+
+\begin{figure}[H]
+  \centering
+  \caption{Representação geral do algoritmo de encriptação DES.}
+  \includegraphics[width=\textwidth]{DES.png}
+  \fonte{\cite{stallings:2014}}
+  \label{fig:des}
+\end{figure}
+
+
+\subsection{AES - \textit{Advanced Encryption Standard}}
+O AES é um algoritmo de chave simétrica de bloco e foi publicado pelo NIST em 2001 com objetivo de substituir o DES como padrão de criptografia simétrica \cite{stallings:2014}. Diferente dos algoritmos de criptografia de chave pública como RSA, o AES e a maioria dos algoritmos simétricos possuem uma estrutura bastante complexa. Todas as operações realizadas pelo algoritmo são em 8 bits, e envolve operações com números inteiros.
+
+O algoritmo recebe como entrada um bloco de texto claro sem formatação com 128 bits de extensão. O comprimento da chave pode ser de 128, 192 ou 256 bits. E o algoritmo é chamado de AES-128, AES-192 ou AES-256, dependendo do tamanho da chave.  O bloco de entrada é copiado para um \textit{Array} \textbf{Estado}, que é modificado por quatro transformações a cada etapa da encriptação ou decriptação. Os quatro estágios diferentes de transformações utilizados, um de permutação e três de substituição são:
+\begin{itemize}
+\item \textit{SubBytes}: Utilização de uma S-box para realizar a substituição byte a byte do bloco.
+\item \textit{ShiftRows}: Permutação simples.
+\item \textit{MixColumns}: Substituição aritmética.
+\item \textit{AddRoundKey}: Um XOR bit a bit simples do bloco atual com uma parte da chave expandida.
+\end{itemize}
+
+O número de rodadas de transformações depende do tamanho da chave utilizada. São 10 rodadas para RSA-128, 12 rodadas para o RSA-192 e 14 rodadas para o RSA-256. Após a última etapa, o \textbf{Estado} é copiado para a saída, que resulta no texto cifrado. Já o processo de decriptação é praticamente o inverso, porém com a chave diferente.
+
+
+
+\subsection{Criptografia Assimétrica}
+Segundo \cite{stallings:2014} criptografia assimétrica ou algoritmos de chave pública são baseados em funções matemáticas, em vez de substituição e permutação. Os algoritmos de chave pública envolvem o uso de duas chaves assimétricas, uma pública e uma privada, que são usadas para realizar operações complementares, como encriptação e decripitação ou geração e verificação de assinatura. Os dois algoritmos de chave pública para uso geral mais utilizados são o RSA, e curva elíptica, onde o RSA é o mais adotado.
+
+\subsection{RSA}
+Segundo \cite{borodzhieva:2016} o RSA é um dos primeiros algoritmos de chave pública desenvolvidos e ele é fortemente adotado para o uso na transmissão segura de dados. Ele utiliza um par de chaves, sendo uma pública utilizada para encriptação, e uma privada utilizada para decifração. O algoritmo explora o fato de que dois números inteiros \textit{p} e \textit{q} podem ser facilmente multiplicados, mas é muito mais difícil fatorar seu produto \textit{n = p.q}. Então o produto como parte da chave de criptografia pode ser disponibilizado publicamente, enquanto os multiplicadores que são o segredo para a decifração, permanecem privados. Se os números inteiros utilizados no RSA conterem mais de 100 dígitos, a multiplicação pode ser feita em segundos enquanto a fatoração dos multiplicadores (números primos) pode levar bilhões de anos \cite{schneier:2007}.
+
+
+
+\section{SSL, TLS e HTTPS}
+Segundo \cite{lien:2011} o \textit{Secure Socket Layer} (SSL) é um protocolo de criptografia, que fornece a comunicação segura sobre a internet, ele faz isto considerando a forma em que é feita a troca de dados entre dois \textit{Sockets}, e sua segurança está na autenticação das partes envolvidas, e na cifragem dos dados transmitidos entre as partes.
+Já o \textit{Transport Layer Security} (TLS), estende a segurança do SSL através do uso da técnica chamada de \textit{Handshaking}, que é um processo de negociação onde se estabelece um canal de comunicação seguro entre as duas entidades, antes de começar a comunicação normal.
+
+O SSL oferece serviços básicos de segurança para vários protocolos da camada de transporte, particularmente o \textit{Hypertext Transfer Protocol} (HTTP). O protocolo HTTPS(HTTP over SSL) vem da combinação dos protocolos HTTP e SSL, e ele está presente em todos os navegadores Web modernos. Uma das maneiras de se observar o uso do HTTPS é através do endereço da URL (Uniform Resource Locator) de um \textit{website}, que começa com https:// em vez de http://, e no HTTPS a porta utilizada é a 443, diferente do HTTP que é utiliza a porta 80 por padrão. E em uma comunicação HTTPS os seguintes elementos são encriptados \cite{stallings:2014}:
+\begin{itemize}
+\item URL do documento solicitado.
+\item Conteúdo do documento.
+\item Conteúdo dos formulários do navegador.
+\item \textit{Cookies} enviados do navegador ao servidor e vice-versa.
+\item Conteúdo do cabeçalho HTTP.
+\end{itemize}
+
+
+
+\section{Tecnologias}
+Nesta seção são citadas algumas das tecnologias que foram estudadas para utilização na implementação do sistema seguro de armazenamento de senhas com autenticação biométrica.
+
+
+\subsection{Scikit-Learn}
+\textit{Scikit-learn} é uma biblioteca de aprendizado de máquina de código aberto desenvolvida para a linguagem de programação Python. Ela implementa uma variedade de algoritmos de classificação, regressão e agrupamento, incluindo: \textit{Suport Vector Machines}, \textit{k-Nearest Neighbors}, \textit{Random Forest}, Redes Neurais Artificiais, entre outros. 
+
+Segundo \cite{scikit-learn} a visão do projeto \textit{Scikit-learn} não é fornecer a maior quantidade possível de algoritmos, mas sim fornecer implementações de qualidade destes algoritmos, evitando o conceito de \textit{framework} para que seja simples a integração da biblioteca. Isto é feito utilizando o mínimo possível de objetos diferentes, e dependendo em contêineres de dados em forma de \textit{numpy arrays}. Outro grande foco do projeto é a documentação, contendo mais de 300 páginas incluindo, documentação narrativa, referência de classes, tutoriais, instruções de instalação, e mais de 60 exemplos de aplicação (alguns com problemas práticos do mundo real). A documentação é escrita procurando minimizar o uso de termos específicos de aprendizado de máquina, enquanto mantendo a precisão sobre a descrição dos algoritmos. Algumas das tecnologias que dão base para o \textit{Scikit-learn} são:
+\begin{itemize}
+\item \textit{Numpy}: A estrutura de dados base usada para dados e modelo de parâmetros. Dados de entrada são apresentados como \textit{numpy arrays}. E também fornecem operações aritméticas base.
+\item \textit{Scipy}: Algoritmos eficientes para álgebra linear, representação de matrizes, funções especiais e funções estatísticas básicas.
+\item \textit{Cython}: Uma linguagem para combinar C em \textit{Python}. \textit{Cython} torna possível alcançar performance de linguagens compiladas utilizando sintaxe similar a própria do \textit{Python}.
+\end{itemize}
+
+Enquanto um dos principais objetivos do \textit{Scikit-learn} é a simplicidade de uso, e é escrita em sua grande parte em linguagem de alto nível, o projeto considera a maximização do uso computacional. Na Tabela \ref{comparacao-scikit-learn}, é possível visualizar a comparação entre o tempo de computação de algum dos principais algoritmos implementados pelas bibliotecas de aprendizado de máquina mais populares em \textit{Python}.
+
+\begin{table}[H]
+\centering
+\caption{Desempenho de algoritmos de aprendizado de máquina em Python (em segundos).}
+\label{comparacao-scikit-learn}
+\begin{tabular}{lcccccc}
+\hline
+                              & \textit{scikit-learn} & \textit{mlpy} & \textit{pybrain} & \textit{pymvpa} & \textit{mdp} & \textit{shogun} \\ \hline
+Support Vector Classification & \textbf{5.2}          & 9.47          & 17.5             & 11.52           & 40.48        & 5.63            \\
+Lasso (LARS)                  & \textbf{1.17}         & 105.3         & -                & 37.35           & -            & -               \\
+Elastic Net                   & \textbf{0.52}         & 73.7          & -                & 1.44            & -            & -               \\
+k-Nearest Neighbors           & 0.57                  & 1.41          & -                & \textbf{0.56}   & 0.58         & 1.36            \\
+PCA (9 components)            & \textbf{0.18}         & -             & -                & 8.93            & 0.47         & 0.33            \\
+k-Means (9 clusters)          & 1.34                  & 0.79          & *                & -               & 35.75        & \textbf{0.68}   \\
+License                       & BSD                   & GPL           & BSD              & BSD             & BSD          & \textit{GPL}    \\ \hline
+\multicolumn{2}{l}{- : Não implementado.}             & \multicolumn{5}{l}{⋆ : Não converge em menos de 1 hora.}   
+\end{tabular}
+\fonte{\cite{scikit-learn}}
+\end{table}
+
+
+
+
+\subsection{Scikit-Image}
+\textit{Scikit-image} é uma biblioteca de processamento de imagens que implementa algoritmos e utilidades para uso em pesquisas, educação e aplicações industriais. Esta biblioteca está regulamentada sobre a licença BSD livre para uso e modificação. Ela fornece uma \textit{Application Programming Interface} (API) bem documentada para a linguagem de programação \textit{Python}, e é desenvolvida por uma ativa comunidade internacional de colaboradores \cite{scikit-image}.
+
+Segundo \cite{scikit-image} um dos principais objetivos do projeto é tornar fácil para qualquer usuário começar seu uso rapidamente, especialmente para usuários já familiarizados com outras ferramentas cientificas do \textit{Python}. A \textit{scikit-image} fornece ferramentas robustas para conversão de diferentes tipos de arquivos de imagens, e um grande número de algoritmos que possuem aplicações sobre pesquisas de processamento de imagens. A galeria online de exemplos fornece uma visão geral das funcionalidades disponíveis no pacote de ferramentas, e introduz a maioria dos algoritmos mais utilizados em problemas de processamento de imagens.
+
+O projeto do \textit{scikit-learn} respeita os padrões de estilo de código PEP8, e a documentação de formatação do \textit{NumPy}, a fim de fornecer uma experiência consistente e familiar entre diferentes bibliotecas cientificas desenvoldas em \textit{Python}. A representação dos dados usada são \textit{NumPy arrays} multidimensionais, para garantir esta interoperabilidade entre o ecossistema científico do \textit{Python}. A maior parte da API do \textit{scikit-image} é desenvolvida como uma interface funcional, o que permite que uma função pode ser simplesmente ser aplicada ao resultado de outra. O código fonte é em sua maioria escrito em \textit{Python}, porém algumas partes onde performance é crítica são implementadas em \textit{Cython}, que é um compilador de otimização para \textit{Python} \cite{scikit-image}.
+
+
+\subsection{OpenCV}
+O OpenCV (Open Source Computer Vision Library) foi originalmente desenvolvido pela Intel em 2000, e é uma biblioteca multiplataforma (disponível nas linguagens de programação C/C++, Java, Python e Visual Basic) de código livre para o uso acadêmico e comercial. O \textit{OpenCV} é dividido em uma estrutura modular, o que significa que o o pacote inteiro contém várias bibliotecas estáticas ou compartilhadas. Os seguintes módulos estão disponíveis:
+
+\begin{itemize}
+\item Funcionalidades principais: Um modulo compacto que defini as estruturas de dados básicas e funções usadas por todos os outros módulos.
+\item Processamento de Imagem: modulo que contém filtros de imagens lineares e não lineares, funções de transformação geométrica, conversão do espaço de cores, histogramas, entre outros.
+\item Video: Módulo para análise de vídeos que inclui funções para estimativa de movimento, remoção de fundo, e algoritmos para detecção de objetos.
+\item Calib3d: Algoritmos básicos de geometria de visão múltipla, calibração de câmera, estimativa de pose de objetos, e elementos de reconstrução 3D.
+\item Features2d: Detecção de características, descritores, e descritores de comparação.
+\item Objdetect: Detecção de objetos e instancias de classes predefinidas, como: faces, olhos, carros, entre outros.
+\item Highgui: Interface simples e fácil de ser utilizada.
+\item Video I/O: Interface para captura de vídeos e de \textit{codecs}.
+\item GPU: Algoritmos acelerados por Unidades de Processamento Gráfico (GPU) de diferentes módulos do \textit{OpenCV}.
+\end{itemize}
+
+Além de outros módulos auxiliares, como FLANN, \textit{Google Test Wrapers}, \textit{Python bindings}, entre outros.
+
+
+
+\section{Bases de dados biométricos}
+Existem uma variedade de bases de dados de características biométricas, principalmente de faces e voz, que é o objetivo deste trabalho. O trabalho de \cite{violato:2013} desenvolveu uma base de dados biométrica com amostras de face e voz de indivíduos brasileiros. Esta base de dados contempla capturas de vídeos, com áudio de pessoas de diferentes idades e gêneros, obtidos em diferentes cenários de uso e por meio de três canais distintos: \textit{smartphones}, \textit{notebooks} e chamadas telefônicas. 
+
+Na própria documentação do \textit{OpenCV} \cite{opencv}, é citado a base de imagens de faces ORL e YALE. Sendo a segunda dividida em duas partes. A \textit{YALE Facedatabase A} contendo 165 imagens em tons de cinza no formato GIF (acrônimo para Graphics Interchange Format) de 15 pessoas, são 11 imagens para cada uma, e cada uma com expressões faciais e configurações diferentes. Já a \textit{YALE Facedatabase B} estendida contém 16128 imagens de 28 pessoas, sobre 9 diferentes poses e 64 condições de iluminação diferentes \cite{yale:2001}. Estas bases são de uso livre para propósito de pesquisa.
+
+\section{Característica Biométrica Escolhida} 
+Baseado na análise dos trabalhos relacionados estudados no Capítulo 3, foi definida uma característica biométrica a ser utilizada no processo de autenticação que é a face. Esta biometria foi escolhida pois pode ser obtida pela grande maioria dos dispositivos no mercado (\textit{Smartphones}, computadores e \textit{notebooks}), através de câmeras convencionais. A biometria escolhida para o desenvolvimento do sistema está entre as mais populares em sistemas de autenticação, e possuem uma grande variedade de pesquisas e trabalhos científicos onde são utilizadas técnicas e algoritmos eficientes que sejam capazes de realizar o seu reconhecimento.
+
+Em seu trabalho \cite{gofman:2016}, demonstrou que é possível aumentar a segurança na autenticação biométrica através da combinação dos resultados sobre o processamento de duas ou mais características. Este processo pode ser feito de várias maneiras, e uma delas é a avaliação da qualidade de ambas amostras biométricas, e posteriormente a combinação dos resultados das técnicas de reconhecimento proporcionalmente à qualidade de cada amostra. Com isto, o sistema desenvolvido está preparado para que o reconhecimento de novas biometrias sejam integradas futuramente.

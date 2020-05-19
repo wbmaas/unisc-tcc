@@ -1,0 +1,191 @@
+\documentclass[propostatc]{unisc}    % Opção showlinks exibe os links em cor azul
+
+\usepackage[T1]{fontenc}                       % Suporte a acentuação no arquivo de saída
+\usepackage[utf8]{inputenc}                    % Codificação dos arquivos de entrada em UTF-8
+\usepackage[english,brazilian]{babel}          % Idiomas utilizados no trabalho (o último é o principal)
+\usepackage{float}                             % Maior controle de objetos "float" (tabelas, figuras, etc.)
+\usepackage{enumerate}
+\usepackage{graphicx}
+
+
+
+\title{Sistema de armazenamento de senhas seguro com autenticação biométrica}    % Título do Trabalho
+\author{Maas}{William Bozzetti}             % Autor do Trabalho
+\advisor[Prof. Me.]{Neu}{Charles Varlei}    % Orientador
+\reviewer[Prof. Dra.]{Frozza}{Rejane}       % Avaliador 1
+\reviewer[Prof. Me.]{Helfer}{Gilson}        % Avaliador 2
+\reviewer[Prof. Dr.]{Tedesco}{Leonel}       % Avaliador 3
+
+\dept{Departamento de Informática}
+\course{Curso de Ciência da Computação}
+\location{Santa Cruz do Sul}{RS}
+\date{22}{agosto}{2017}
+
+
+\begin{document}
+
+\maketitle
+\tableofcontents
+
+\chapter*{Introdução}
+
+O uso de senhas para autenticação é um dos meios mais adotados atualmente, estando presente na maioria dos serviços disponíveis na web, e a utilização de uma única senha para diversos serviços pode trazer vulnerabilidades ao usuário, pois a perda ou descoberta desta senha pode comprometer a segurança de todos os seus sistemas e serviços. Por outro lado, o uso de senhas diferentes para cada serviço acaba se tornando inconveniente pois são difíceis de memorizar \cite{Huiguang:2014}.
+
+A autenticação através de biometria estabelece a identidade baseada em características físicas e comportamentais (como face e voz), diminuindo a inconveniência para usuários de terem de criar e lembrar de senhas seguras \cite{gofman:2016}. Infelizmente algumas destas características podem ser facilmente obtidas: faces são publicamente disponíveis e digitais permanecem em superfícies intactas. Por isto, o uso de múltiplas características biométricas são preferidos a fim de aumentar a segurança e identificação correta do usuário \cite{Agholor:2016}.
+
+As características biométricas de uma pessoa podem ser reconhecidas através do uso de técnicas de processamento de imagens e voz aliadas à métodos de aprendizado de máquina. Para isto é necessário construir uma base de dados com exemplos de dados obtidos a partir da leitura destas características, sobre o qual são aplicados os algoritmos de aprendizado de máquina a fim de construir um modelo das propriedades biométricos de cada pessoa \cite{heinen:2005}.
+
+Segundo \cite{Mitchell:l997}, um programa aprende quando sua performance melhora com a experiência em uma determinada tarefa. Elas são especialmente úteis em domínios onde humanos ainda não possuem o conhecimento necessário para desenvolver algoritmos efetivos, como reconhecimento de faces humanas em imagens. 
+
+Técnicas de aprendizado de máquina têm sido utilizadas por obterem ótimos resultados em uma grande variedade de aplicações. Em seu trabalho \cite{violajones:2001}, demonstra que é possível obter ótimos resultados na detecção de faces em imagens, utilizando árvores de decisão e grandes bases de treinamento, chegando a taxas de reconhecimento acima de 94\%.
+
+Já \cite{ranny:2016} em seu trabalho sobre reconhecimento de voz, atinge uma taxa de reconhecimento de 84.5\%, através do algoritmo \textit{k-Nearest Neighbors}, e surpreendentes 96.97\% utilizando o método de distância dupla.
+
+O reconhecimento da íris também demonstra grande potencial para autenticação biométrica, pois trabalhos como o de \cite{pavaloi:2017} demonstram ótimos resultados neste tipo de problema, utilizando as técnicas de \textit{Support Vector Machine} e \textit{k-Nearest Neighbors}, e bases de treinamento como UBIRIS \cite{ubiris:2009}, o autor obteve taxas de reconhecimento acima de 90\%.
+
+Entretanto o uso de autenticação biométrica em um sistema de gerenciamento de senhas melhora sua usabilidade e segurança, porém para a garantir a confiabilidade geral do sistema é preciso realizar o armazenamento de senhas de uma forma segura, pois o armazenamento em formato de texto simples é uma solução extremamente frágil em termos de segurança. Para isto podem ser utilizadas técnicas de criptografia.
+
+Segundo \cite{schneier:2007} um algoritmo de criptografia, também conhecido como cifrador, é uma função matemática usada para cifragem e decifragem. Para \cite{stallings:2014} algoritmos criptográficos são técnicas para garantir o sigilo e/ou a autenticidade da informação. Os dois ramos principais da criptologia são a criptografia, que é o estudo do projeto dessas técnicas; e a criptoanálise, que trata de frustrar essas técnicas, recuperar informações ou forjar informações que serão aceitas como autênticas.
+
+Neste trabalho será explorado o uso de algoritmos de criptografia baseados em chaves, que podem ser classificados em dois tipos: simétricos, onde geralmente existe uma chave em comum que é utilizada para cifragem e decrifragem; e os de chave pública, onde a chave de cifragem é diferente da de decifragem \cite{schneier:2007}. 
+
+Em seu trabalho, \cite{panda:2016} realiza diversos testes sobre os principais algoritmos de criptografia simétricos e assimétricos, como: AES, DES, RSA, BLOWFISH. E ele observa que o desempenho de algoritmos assimétricos é quase mil vezes mais lento quando comparados aos simétricos, em relação ao seu tempo de cifragem, decifragem e vazão.
+
+A vantagem do armazenamento de senhas criptografadas é que mesmo que o acesso a elas seja comprometido elas não podem ser facilmente recuperadas sem que se tenha a chave utilizada na encriptação, e os dados obtidos não passam de sequencias aleatórias de caracteres \cite{chanda:2016}.
+
+Para a proposta deste trabalho serão estudados diferentes algoritmos de aprendizado de máquina analisando suas vantagens na aplicação do reconhecimento de faces, íris, digitais e voz. posteriormente será feito o uso destas técnicas para realizar autenticação no sistema de gerenciamento de senhas desenvolvido. Também serão utilizados algoritmos de criptografia para o armazenamento das senhas de forma segura no sistema. As principais etapas de como esse processo é realizado são apresentadas na Figura \ref{fig:imagem}.
+
+\begin{figure}[!htb]
+  \centering
+  \caption{Visão geral do sistema de gerenciamento de senhas.}
+  \includegraphics[width=\textwidth]{Imagem.png}
+  \fonte{Elaborado pelo autor.}
+  \label{fig:imagem}
+\end{figure}
+
+O fluxo do sistema será de forma simples, primeiro serão coletadas as leituras de pelo menos duas características biométricas dos usuários através do uso de câmera, microfone, e leitor de digitais (que serão definidas durante o trabalho). Estas informações serão processadas através do uso de algoritmos de aprendizado de máquina, onde a combinação dos resultados irá definir se a autenticação é válida ou não. Sendo autenticado, o usuário irá ter acesso ao sistema que permitirá realizar a leitura, cadastro e alteração de informações de login como usuário e/ou email, descrição(nome ou URL do sistema), e senha.
+
+O sistema também contará com funções para gerar senhas automaticamente, baseando-se em boas práticas de segurança; escolha entre algoritmos de criptografia e definição da chave de cifragem. O \textit{software} desenvolvido será para a plataforma web (e/ou mobile), e os dados serão armazenados em um banco de dados.
+
+
+
+\chapter*{Justificativa}
+%%Justificativa Social
+Como justificativa social para o desenvolvimento deste tema, o uso de técnicas de aprendizado de máquina para reconhecimento de características biométricas implicam no aumento da segurança e melhora na usabilidade de um sistema de gerenciamento de senhas, removendo a exigência de memorização de uma senha principal para acesso ao sistema, o que pode ocasionar a popularização do uso deste tipo de sistema. E o uso de técnicas de criptografia proveem proteção extra em caso de comprometimento dos dados, pois eles não poderão ser facilmente decifrados sem as chaves utilizadas na cifragem.
+
+%%Justificativa Cientifica
+Como justificativa científica, a área de aprendizado de máquina aplicada sobre reconhecimento de características biométricas pode trazer contribuições significativas, tanto como demonstrar a viabilidade ou não destas características no uso de autenticação, quanto verificar o desempenho das técnicas de aprendizado de máquina aplicadas sobre o reconhecimento de padrões.
+
+%%Justificativa Empresarial
+Como justificativa empresarial, o aumento do número de dispositivos com câmeras de alta qualidade, leitores de digitais, entre outros, permite que sistemas façam proveito destas tecnologias, para que os consumidores tenham interesse em adquiri-los, e para que a indústria continue a evoluir sobre estas tecnologias.
+
+Como problema de pesquisa, define-se: "É possível desenvolver um sistema de armazenamento seguro de senhas que somente podem ser acessadas através de autenticação biométrica, utilizando técnicas de ML e criptografia?".
+
+
+\chapter*{Objetivos}
+O objetivo geral deste trabalho é desenvolver um sistema de armazenamento seguro de senhas com autenticação biométrica. Pretende-se aplicar técnicas de aprendizado de máquina para realizar a autenticação biométrica e algoritmos de criptografia para armazenar as senhas.
+
+Sendo assim, pretende-se atingir os seguintes objetivos específicos:
+
+\begin{itemize}
+\item Estudar trabalhos relacionados ao reconhecimento de características biométricas.
+\item Estudar trabalhos relacionados ao uso de criptografia.
+\item Estudar os principais métodos de criptografia.
+\item Estudar técnicas de processamento de imagens, reconhecimento e aprendizado de máquina e sua aplicação sobre reconhecimento de características biométricas como: faces, íris, digitais e voz.
+\item Modelar o sistema de gerenciamento de senhas aplicando as técnicas estudadas.
+\item Desenvolver o sistema de gerenciamento de senhas.
+\end{itemize}
+
+
+\chapter*{Metodologia}
+Esta Seção apresenta a caracterização da pesquisa e os procedimentos metodológicos aplicados a este trabalho.
+
+\section*{Caracterização da pesquisa}
+O objetivo desta pesquisa é exploratório. Serão pesquisados trabalhos relacionados a aplicação de técnicas de aprendizado de máquina no reconhecimento de características biométricas para autenticação em gerenciadores de senhas, e técnicas de criptografia. O ambiente de pesquisa é bibliográfico, onde serão buscadas fontes através de livros sobre segurança e criptografia de dados, autenticação utilizando características biométricas, aprendizado de máquina, artigos, outros trabalhos de conclusão desenvolvidos, Internet.
+
+O procedimento de validação do sistema será qualitativo, onde será feita uma síntese dos resultados obtidos, evidenciando as contribuições, relatando as limitações do estudo, relacionando os fatos verificados com a teoria. Além disso, serão feitos testes sobre o processo de autenticação através do uso de biometria e algoritmos de aprendizado de máquina.
+
+\section*{Procedimento metodológicos}
+Para a realização do trabalho de conclusão apresentado serão necessárias as seguintes etapas:
+
+\begin{enumerate}[I.]
+  \item Elaboração da proposta
+  \begin{itemize}
+    \item Realizar o levantamento bibliográfico inicial sobre assuntos a serem trabalhados no TC.
+    \item Escrita da proposta.
+    \item Entrega da proposta.
+  \end{itemize}
+  \item Pesquisa sobre o estado da arte, estudando trabalhos semelhantes da Literatura.
+  \item Estudos e definições.
+  \begin{itemize}
+    \item Estudo sobre algoritmos de criptografia.
+    \item Estudo sobre o uso de características biométricas para autenticação.
+    \item Estudo sobre reconhecimento de faces, digitais, íris e voz.
+    \item Estudo sobre técnicas de aprendizado de máquina aplicados sobre características biométricas.
+    \item Definição de duas ou mais características biométricas a serem implementadar no TC.
+    \item Definição das técnicas de aprendizado de máquina utilizadas na autenticação biométrica.
+    \item Definição das técnicas de criptografia a serem utilizadas no armazenamento de senhas.
+    \item Estudo sobre bibliotecas que implementam técnicas de aprendizado de máquina e processamento de dados e imagens como: scikit-learn \cite{scikit-learn}, scikit-image \cite{scikit-image}, OpenCV \cite{opencv}.
+    \item Estudo sobre bibliotecas que implementam algoritmos de criptografia como: Pycrypto.
+  \end{itemize}
+  \item Modelagem do sistema de gerenciamento de senhas.
+  \begin{itemize}
+    \item Diagrama de classes.
+    \item Diagrama ER.
+    \item Diagrama de casos de uso.
+    \item Diagrama de sequência.
+  \end{itemize}
+  \item Escrita do TCI.
+  \item Entrega do TCI.
+  \item Implementação do sistema de gerenciamento de senhas utilizando as técnicas de aprendizado de máquina e algoritmos de criptografia estudados.
+  \begin{itemize}
+    \item Implementar o reconhecimento biométrico "1".
+    \item Implementar o reconhecimento biométrico "2".
+    \item Implementar a criptografia.
+    \item Implementar a criptografia sobre os dados que serão armazenados.
+    \item Implementar o armazenamento, consulta e alteração dos dados.
+  \end{itemize}
+  \item Treinamento com bases de dados de características biométricas como: SCFace \cite{grgic:2011}, UBIRIS \cite{ubiris:2009}, entre outros.
+  \item Realização de testes e análise dos resultados.
+  \item Escrita do TCII.
+  \item Apresentação no Salão de Iniciação Científica da UNISC.
+  \item Entrega do TCII.
+  \item Defesa do Trabalho de Conclusão.
+\end{enumerate}
+
+
+\chapter*{Cronograma}
+A seguir, apresenta-se o cronograma para desenvolvimento do trabalho de conclusão.
+
+\begin{table}[H]
+  \label{tab:cronograma}
+  \centering
+  \begin{tabular}{c|c|c|c|c|c|c|c|c|c|c|c|c|c|}
+    \cline{2-14} & \multicolumn{6}{c|}{2017} & \multicolumn{7}{c|}{2018} \\
+    \cline{2-14} & Jul & Ago & Set & Out & Nov & Dez & Jan & Fev & Mar & Abr & Mai & Jun & Jul \\
+    %                                       JUL AGO SET OUT NOV DEZ JAN FEV MAR ABR MAI JUN JUL
+    \cline{1-14} \multicolumn{1}{|c|}{I}   & X & X &   &   &   &   &   &   &   &   &   &   &   \\
+    \cline{1-14} \multicolumn{1}{|c|}{II}  &   & X & X &   &   &   &   &   &   &   &   &   &   \\
+    \cline{1-14} \multicolumn{1}{|c|}{III} &   & X & X & X & X &   &   &   &   &   &   &   &   \\
+    \cline{1-14} \multicolumn{1}{|c|}{IV}  &   &   &   &   & X & X &   &   &   &   &   &   &   \\
+    \cline{1-14} \multicolumn{1}{|c|}{V}   &   &   & X & X & X & X &   &   &   &   &   &   &   \\
+    \cline{1-14} \multicolumn{1}{|c|}{VI}  &   &   &   &   &   & X &   &   &   &   &   &   &   \\
+    \cline{1-14} \multicolumn{1}{|c|}{VII} &   &   &   &   &   &   & X & X & X & X & X &   &   \\
+    \cline{1-14} \multicolumn{1}{|c|}{VIII}&   &   &   &   &   &   &   &   & X & X & X &   &   \\
+    \cline{1-14} \multicolumn{1}{|c|}{IX}  &   &   &   &   &   &   &   &   &   & X & X &   &   \\
+    \cline{1-14} \multicolumn{1}{|c|}{X}   &   &   &   &   &   &   &   &   & X & X & X & X &   \\
+    \cline{1-14} \multicolumn{1}{|c|}{XI}  &   &   &   &   &   &   &   &   &   &   &   & X &   \\
+    \cline{1-14} \multicolumn{1}{|c|}{XII} &   &   &   &   &   &   &   &   &   &   &   & X &   \\
+    \cline{1-14} \multicolumn{1}{|c|}{XIII}&   &   &   &   &   &   &   &   &   &   &   &   & X \\
+    \cline{1-14}
+  \end{tabular}
+\end{table}
+
+% Carrega as referências do arquivo referencias.bib
+\bibliographystyle{abntex2-alf}
+\bibliography{referencias}
+
+% Opcional, dependendo do orientador
+\makesignature
+
+\end{document}
