@@ -1,2 +1,2 @@
 # PWFaces
-Computer science bachelors degree final project
+Computer science bachelors degree final project written in LaTex
